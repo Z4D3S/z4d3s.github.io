@@ -1,0 +1,138 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { useTranslations } from '@/utils/i18n';
+
+const t = useTranslations('es');
+---
+
+<BaseLayout 
+  title={`${t('sandbox.title')} - NightOps`}
+  description={t('sandbox.description')}
+>
+  <section class="relative py-20 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-cyber-purple/10 to-transparent"></div>
+    <div class="max-w-6xl mx-auto px-4 relative">
+      <div class="inline-flex items-center gap-2 px-3 py-1 bg-cyber-purple/20 border border-cyber-purple/50 rounded-full text-cyber-purple text-sm font-mono mb-4">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+        {t('sandbox.disclaimer')}
+      </div>
+      
+      <h1 class="text-4xl font-bold text-white mb-4">
+        {t('sandbox.title')}
+      </h1>
+      <p class="text-xl text-gray-400 max-w-2xl">
+        {t('sandbox.description')}
+      </p>
+    </div>
+  </section>
+  
+  <section class="max-w-6xl mx-auto px-4 py-12">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="cyber-card">
+        <div class="w-12 h-12 bg-cyber-accent/20 rounded-lg flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-cyber-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">Análisis de Logs</h3>
+        <p class="text-gray-400 text-sm mb-4">
+          Aprende a identificar patrones sospechosos en logs de sistema y aplicaciones.
+        </p>
+        <span class="text-cyber-accent font-mono text-xs">Nivel: Básico</span>
+      </div>
+      
+      <div class="cyber-card">
+        <div class="w-12 h-12 bg-cyber-green/20 rounded-lg flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-cyber-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">Detección de IOC</h3>
+        <p class="text-gray-400 text-sm mb-4">
+          Identifica Indicators of Compromise en tu infraestructura.
+        </p>
+        <span class="text-cyber-green font-mono text-xs">Nivel: Intermedio</span>
+      </div>
+      
+      <div class="cyber-card">
+        <div class="w-12 h-12 bg-cyber-purple/20 rounded-lg flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-cyber-purple" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">Reglas de Detección</h3>
+        <p class="text-gray-400 text-sm mb-4">
+          Crea reglas YARA, Sigma y Snort para detección de amenazas.
+        </p>
+        <span class="text-cyber-purple font-mono text-xs">Nivel: Avanzado</span>
+      </div>
+      
+      <div class="cyber-card">
+        <div class="w-12 h-12 bg-cyber-yellow/20 rounded-lg flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-cyber-yellow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">Respuesta a Incidentes</h3>
+        <p class="text-gray-400 text-sm mb-4">
+          Simula escenarios de respuesta y aprende procedimientos de contención.
+        </p>
+        <span class="text-cyber-yellow font-mono text-xs">Nivel: Intermedio</span>
+      </div>
+      
+      <div class="cyber-card">
+        <div class="w-12 h-12 bg-cyber-red/20 rounded-lg flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-cyber-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">Análisis de Malware</h3>
+        <p class="text-gray-400 text-sm mb-4">
+          Análisis estático y dinámico de muestras en entorno controlado.
+        </p>
+        <span class="text-cyber-red font-mono text-xs">Nivel: Avanzado</span>
+      </div>
+      
+      <div class="cyber-card">
+        <div class="w-12 h-12 bg-cyber-green/20 rounded-lg flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-cyber-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">Hardening de Sistemas</h3>
+        <p class="text-gray-400 text-sm mb-4">
+          Aprende a fortalecer sistemas y configuraciones seguras.
+        </p>
+        <span class="text-cyber-green font-mono text-xs">Nivel: Básico</span>
+      </div>
+    </div>
+    
+    <div class="mt-12 p-6 bg-cyber-gray border border-cyber-border rounded-lg">
+      <h3 class="text-lg font-bold text-white mb-4">Entorno Docker</h3>
+      <p class="text-gray-400 text-sm mb-4">
+        Los laboratorios utilizan Docker para crear entornos aislados y seguros.
+      </p>
+      <div class="bg-cyber-black rounded-lg p-4 font-mono text-sm overflow-x-auto">
+        <pre class="text-cyber-green">git clone https://github.com/cyberblue/sandbox-lab.git
+cd sandbox-lab
+docker-compose up -d</pre>
+      </div>
+    </div>
+    
+    <div class="mt-8 p-4 bg-cyber-yellow/10 border border-cyber-yellow/30 rounded-lg">
+      <div class="flex items-start gap-3">
+        <svg class="w-5 h-5 text-cyber-yellow flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        <div>
+          <h4 class="text-cyber-yellow font-semibold">Aviso Importante</h4>
+          <p class="text-gray-400 text-sm mt-1">
+            Este entorno es exclusivamente educativo. Nunca intentes aplicar estos conocimientos en sistemas sin autorización.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

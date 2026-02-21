@@ -1,0 +1,121 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/Icon.astro';
+import PostCard from '@/components/PostCard.astro';
+import TagCloud from '@/components/TagCloud.astro';
+import { getCollection } from 'astro:content';
+import { siteConfig, categories } from '@/config/theme';
+
+const posts = (await getCollection('blog'))
+  .filter(post => !post.id.includes('/templates/'))
+  .filter(post => post.data.draft !== true)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const recentPosts = posts.slice(0, 4);
+const allTags = [...new Set(posts.flatMap(post => post.data.tags))];
+
+// Get unique tools from posts
+const allTools = posts.flatMap(post => post.data.tags.filter(tag => 
+  ['splunk', 'wazuh', 'elk', 'yara', 'sigma', 'wireshark', 'zeek', 'volatility', 'ftk', 'autopsy', 'mitre', 'snort', 'suricata', 'grep', 'awk', 'powershell', 'python'].includes(tag.toLowerCase())
+));
+const uniqueTools = [...new Set(allTools.map(t => t.toLowerCase()))];
+---
+
+<BaseLayout title={siteConfig.title + ' - ' + siteConfig.subtitle} description={siteConfig.description}>
+  <!-- Hero Section -->
+  <section class="relative py-16 overflow-hidden">
+    <div class="absolute inset-0 binary-bg opacity-10"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-cyber-dark via-transparent to-transparent"></div>
+    <div class="max-w-6xl mx-auto px-4 relative">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="w-2 h-2 bg-cyber-accent rounded-full animate-pulse"></span>
+        <span class="text-cyber-accent text-sm font-mono">● ONLINE</span>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold text-white mb-2">
+        <span class="text-cyber-accent font-mono">&lt;</span>{siteConfig.title}<span class="text-cyber-accent font-mono">/&gt;</span>
+      </h1>
+      <p class="text-xl text-cyber-accent font-mono mb-4">$ {siteConfig.subtitle}</p>
+      <p class="text-gray-400 max-w-xl">
+        {siteConfig.description}
+      </p>
+    </div>
+  </section>
+
+  <!-- Tools Section -->
+  <section class="max-w-6xl mx-auto px-4 py-8">
+    <div class="cyber-card">
+      <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+        <Icon name="wrench" class="w-5 h-5 text-cyber-accent" />
+        Tools & Technologies
+      </h2>
+      <div class="flex flex-wrap gap-2">
+        {uniqueTools.length > 0 ? uniqueTools.map(tool => (
+          <span class="px-3 py-1 bg-cyber-gray border border-cyber-border rounded text-sm font-mono text-cyber-accent">
+            {tool.toUpperCase()}
+          </span>
+        )) : (
+          <>
+            <span class="px-3 py-1 bg-cyber-gray border border-cyber-border rounded text-sm font-mono text-cyber-accent">WIRESHARK</span>
+            <span class="px-3 py-1 bg-cyber-gray border border-cyber-border rounded text-sm font-mono text-cyber-accent">SPLUNK</span>
+            <span class="px-3 py-1 bg-cyber-gray border border-cyber-border rounded text-sm font-mono text-cyber-accent">ELK</span>
+            <span class="px-3 py-1 bg-cyber-gray border border-cyber-border rounded text-sm font-mono text-cyber-accent">YARA</span>
+            <span class="px-3 py-1 bg-cyber-gray border border-cyber-border rounded text-sm font-mono text-cyber-accent">ZEEK</span>
+            <span class="px-3 py-1 bg-cyber-gray border border-cyber-border rounded text-sm font-mono text-cyber-accent">VOLATILITY</span>
+            <span class="px-3 py-1 bg-cyber-gray border border-cyber-border rounded text-sm font-mono text-cyber-accent">AUTOPHY</span>
+            <span class="px-3 py-1 bg-cyber-gray border border-cyber-border rounded text-sm font-mono text-cyber-accent">MITRE ATT&CK</span>
+          </>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="max-w-6xl mx-auto px-4 py-4">
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {categories.map(cat => (
+        <a href={`/categories/${cat.id}`} class="cyber-card group hover:border-cyber-accent transition-colors">
+          <div class="flex items-center gap-3 mb-2">
+            <Icon name={cat.icon} class="w-6 h-6 text-cyber-accent group-hover:text-cyber-accent_light transition-colors" />
+            <span class="font-bold text-white group-hover:text-cyber-accent transition-colors">{cat.label}</span>
+          </div>
+          <p class="text-xs text-gray-500">{cat.desc}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+  
+  <!-- Latest Posts -->
+  <section class="max-w-6xl mx-auto px-4 py-12">
+    <h2 class="cyber-heading mb-6 flex items-center gap-2">
+      <Icon name="file-text" class="w-5 h-5 text-cyber-accent" />
+      Latest Posts
+    </h2>
+    <div class="grid md:grid-cols-2 gap-6">
+      {recentPosts.map(post => (
+        <PostCard 
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          href={`/blog/${post.slug}`}
+          tags={post.data.tags}
+        />
+      ))}
+    </div>
+    
+    {posts.length > 4 && (
+      <div class="mt-8 text-center">
+        <a href="/blog" class="cyber-btn">View All Posts →</a>
+      </div>
+    )}
+  </section>
+  
+  <!-- Sidebar -->
+  <section class="max-w-6xl mx-auto px-4 py-8">
+    <div class="grid lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2"></div>
+      <aside class="space-y-6">
+        <TagCloud tags={allTags} />
+      </aside>
+    </div>
+  </section>
+</BaseLayout>

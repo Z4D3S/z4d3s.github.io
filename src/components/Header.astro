@@ -1,0 +1,46 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import Icon from './Icon.astro';
+import { siteConfig } from '../config/theme';
+
+const navItems = [
+  { href: '/', label: '~' },
+  { href: '/blog', label: 'blog' },
+  { href: '/resources', label: 'resources' },
+];
+---
+
+<header id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-cyber-dark/90 backdrop-blur-md border-b border-cyber-border">
+  <nav class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2">
+      <span class="text-cyber-accent font-mono font-bold text-lg">&lt;{siteConfig.title}/&gt;</span>
+    </a>
+    
+    <div class="flex items-center gap-1">
+      {navItems.map(item => (
+        <a 
+          href={item.href}
+          class="nav-link px-3 py-1 font-mono text-sm hover:text-cyber-accent transition-colors"
+        >
+          {item.label}
+        </a>
+      ))}
+      
+      <a 
+        href="/search"
+        class="p-1.5 hover:text-cyber-accent transition-colors ml-2"
+        aria-label="Search"
+      >
+        <Icon name="search" class="w-4 h-4" />
+      </a>
+      
+      <ThemeToggle />
+    </div>
+  </nav>
+</header>
+
+<style is:global>
+  html.light #main-header {
+    @apply bg-white/90 border-gray-200;
+  }
+</style>

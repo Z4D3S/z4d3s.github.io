@@ -1,0 +1,36 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+}
+
+const { title, description, image, type } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es" class="dark">
+  <head>
+    <BaseHead title={title} description={description} image={image} type={type} />
+    <script is:inline>
+      const theme = localStorage.getItem('theme') || 'dark';
+      if (theme === 'light') {
+        document.documentElement.classList.add('light');
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+  </head>
+  <body class="bg-cyber-black text-gray-300 min-h-screen flex flex-col binary-bg">
+    <Header />
+    <main class="flex-1 pt-16 relative z-10">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

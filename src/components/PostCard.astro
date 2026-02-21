@@ -1,0 +1,54 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  href: string;
+  tags: string[];
+  lang?: string;
+}
+
+const { title, description, pubDate, href, tags, lang = 'es' } = Astro.props;
+
+const localeMap = { es: 'es-ES', en: 'en-US', pt: 'pt-BR' };
+const locale = localeMap[lang as keyof typeof localeMap] || 'es-ES';
+
+const formattedDate = pubDate.toLocaleDateString(locale, {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+
+const labels = {
+  es: 'Leer más',
+  en: 'Read more',
+  pt: 'Ler mais'
+};
+
+const readMore = labels[lang as keyof typeof labels] || labels.es;
+---
+
+<article class="cyber-card group">
+  <div class="flex flex-wrap gap-2 mb-3">
+    {tags.slice(0, 3).map(tag => (
+      <span class="cyber-tag">{tag}</span>
+    ))}
+  </div>
+  
+  <a href={href}>
+    <h3 class="text-xl font-bold text-white group-hover:text-cyber-green transition-colors mb-2">
+      {title}
+    </h3>
+  </a>
+  
+  <p class="text-gray-400 text-sm mb-4 line-clamp-2">
+    {description}
+  </p>
+  
+  <div class="flex items-center justify-between text-xs text-gray-500">
+    <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+    <a href={href} class="text-cyber-green hover:underline">
+      {readMore} →
+    </a>
+  </div>
+</article>

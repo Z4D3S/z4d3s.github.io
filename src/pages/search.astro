@@ -1,0 +1,133 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).filter(post => 
+  post.data.draft !== true
+);
+---
+
+<BaseLayout title="Buscar - NightOps" description="Buscar artículos">
+  <section class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="cyber-heading">Buscar</h1>
+    
+    <div class="mb-8">
+      <input 
+        type="text" 
+        id="search-input"
+        placeholder="Buscar artículos..."
+        class="search-input w-full px-4 py-3 bg-cyber-gray border border-cyber-border rounded-lg focus:outline-none focus:border-cyber-green transition-colors font-mono"
+      />
+    </div>
+    
+    <div id="search-results" class="grid md:grid-cols-2 gap-6">
+      {posts.map(post => (
+        <article class="cyber-card group">
+          <div class="flex flex-wrap gap-2 mb-3">
+            {post.data.tags.slice(0, 3).map(tag => (
+              <span class="cyber-tag">{tag}</span>
+            ))}
+          </div>
+          <a href={`/blog/${post.slug}`}>
+            <h3 class="post-title text-xl font-bold group-hover:text-cyber-green transition-colors mb-2">
+              {post.data.title}
+            </h3>
+          </a>
+          <p class="post-desc text-sm mb-4 line-clamp-2">
+            {post.data.description}
+          </p>
+          <div class="post-meta flex items-center justify-between text-xs">
+            <time>{new Date(post.data.pubDate).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+            <a href={`/blog/${post.slug}`} class="text-cyber-green hover:underline">
+              Leer más →
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const searchInput = document.getElementById('search-input');
+  const searchResults = document.getElementById('search-results');
+  
+  let allPosts = [];
+  
+  async function loadPosts() {
+    try {
+      const response = await fetch('/search.json');
+      allPosts = await response.json();
+    } catch (e) {
+      console.log('Search data not available');
+    }
+  }
+  
+  function renderResults(results) {
+    if (!searchResults) return;
+    
+    if (results.length === 0) {
+      searchResults.innerHTML = '<p class="text-gray-400 col-span-2 text-center py-8">No se encontraron resultados</p>';
+      return;
+    }
+    
+    searchResults.innerHTML = results.map(post => `
+      <article class="cyber-card group">
+        <div class="flex flex-wrap gap-2 mb-3">
+          ${post.data.tags.slice(0, 3).map(tag => `<span class="cyber-tag">${tag}</span>`).join('')}
+        </div>
+        <a href="/blog/${post.slug}">
+          <h3 class="text-xl font-bold text-white group-hover:text-cyber-green transition-colors mb-2">
+            ${post.data.title}
+          </h3>
+        </a>
+        <p class="text-gray-400 text-sm mb-4 line-clamp-2">
+          ${post.data.description}
+        </p>
+        <div class="flex items-center justify-between text-xs text-gray-500">
+          <time>${new Date(post.data.pubDate).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+          <a href="/blog/${post.slug}" class="text-cyber-green hover:underline">
+            Leer más →
+          </a>
+        </div>
+      </article>
+    `).join('');
+  }
+  
+  searchInput?.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase();
+    
+    if (query.length < 2) {
+      renderResults(allPosts);
+      return;
+    }
+    
+    const results = allPosts.filter(post => 
+      post.data.title.toLowerCase().includes(query) ||
+      post.data.description.toLowerCase().includes(query) ||
+      post.data.tags.some(tag => tag.toLowerCase().includes(query))
+    );
+    
+    renderResults(results);
+  });
+  
+  loadPosts();
+</script>
+
+<style is:global>
+  html.light .search-input {
+    @apply bg-white border-gray-300 text-gray-800 placeholder-gray-400;
+  }
+  
+  html.light .post-title {
+    @apply text-gray-900;
+  }
+  
+  html.light .post-desc {
+    @apply text-gray-600;
+  }
+  
+  html.light .post-meta {
+    @apply text-gray-500;
+  }
+</style>

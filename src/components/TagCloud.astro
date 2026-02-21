@@ -1,0 +1,30 @@
+---
+interface Props {
+  tags: string[];
+  lang?: string;
+}
+
+const { tags, lang = 'es' } = Astro.props;
+
+const labels = {
+  es: 'Etiquetas',
+  en: 'Tags',
+  pt: 'Tags'
+};
+
+const label = labels[lang as keyof typeof labels] || labels.es;
+---
+
+<div class="cyber-card">
+  <h3 class="text-lg font-bold text-white mb-4">{label}</h3>
+  <div class="flex flex-wrap gap-2">
+    {tags.map(tag => (
+      <a 
+        href={`/${lang}/tags/${tag}`}
+        class="cyber-tag"
+      >
+        #{tag}
+      </a>
+    ))}
+  </div>
+</div>
