@@ -15,14 +15,6 @@
     @apply bg-cyber-black text-gray-300;
   }
   
-  html.light body {
-    @apply bg-gray-100 text-gray-800;
-  }
-  
-  html.light {
-    color-scheme: light;
-  }
-  
   html.dark {
     color-scheme: dark;
   }
@@ -69,16 +61,3 @@
     background-size: 120px 80px;
   }
 }
-
-/* Light mode overrides */
-html.light .bg-cyber-black { background-color: #f0f2f5; }
-html.light .bg-cyber-gray { background-color: white; }
-html.light .bg-cyber-dark { background-color: #e8e8ec; }
-html.light .border-cyber-border { border-color: #d0d0e0; }
-html.light .text-gray-300 { color: #505060; }
-html.light .text-gray-400 { color: #666680; }
-html.light .text-white { color: #1a1a2e; }
-html.light .cyber-card { background-color: white; border-color: #d0d0e0; }
-html.light .cyber-btn { border-color: #0066ff; color: #0066ff; }
-html.light .cyber-tag { background-color: #f4f4f8; border-color: #d0d0e0; color: #0066ff; }
-html.light #main-header { background-color: rgba(255,255,255,0.95); border-color: #d0d0e0; }

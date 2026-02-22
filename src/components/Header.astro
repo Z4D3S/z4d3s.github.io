@@ -1,5 +1,4 @@
 ---
-import ThemeToggle from './ThemeToggle.astro';
 import Icon from './Icon.astro';
 import { siteConfig } from '../config/theme';
 
@@ -13,7 +12,8 @@ const navItems = [
 <header id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-cyber-dark/90 backdrop-blur-md border-b border-cyber-border">
   <nav class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
     <a href="/" class="flex items-center gap-2">
-      <span class="text-cyber-accent font-mono font-bold text-lg">&lt;{siteConfig.title}/&gt;</span>
+      <img src="/images/logo.png" alt={siteConfig.title} class="h-8 w-auto" />
+      <span class="text-cyber-accent font-mono font-bold text-lg hidden sm:inline">&lt;{siteConfig.title}/&gt;</span>
     </a>
     
     <div class="flex items-center gap-1">
@@ -33,14 +33,6 @@ const navItems = [
       >
         <Icon name="search" class="w-4 h-4" />
       </a>
-      
-      <ThemeToggle />
     </div>
   </nav>
 </header>
-
-<style is:global>
-  html.light #main-header {
-    @apply bg-white/90 border-gray-200;
-  }
-</style>

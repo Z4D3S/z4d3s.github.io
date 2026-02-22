@@ -24,13 +24,6 @@ const formattedUpdated = updatedDate?.toLocaleDateString(locale, dateOptions);
 <html lang={lang} class="dark">
   <head>
     <BaseHead title={title} description={description} image={heroImage} type="article" />
-    <script is:inline>
-      const theme = localStorage.getItem('theme') || 'dark';
-      if (theme === 'light') {
-        document.documentElement.classList.add('light');
-        document.documentElement.classList.remove('dark');
-      }
-    </script>
   </head>
   <body class="bg-cyber-black text-gray-300 min-h-screen flex flex-col binary-bg-dark">
     <Header />
