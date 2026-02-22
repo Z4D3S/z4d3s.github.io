@@ -10,7 +10,7 @@ tags:
   - picoctf
   - strings
   - linux
-title: Análisis Forense de Imagen .dd -- Extracción de Flag
+title: Análisis Forense de Imagen .dd: Writeup del Reto PicoCTF
 ---
 
 ## Introducción
