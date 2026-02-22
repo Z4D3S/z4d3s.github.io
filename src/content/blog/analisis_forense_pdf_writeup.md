@@ -10,7 +10,7 @@ tags:
   - pdf-analysis
   - metadata
   - base64
-title: Análisis Forense de PDF - Writeup del Reto PicoCTF
+title: Análisis Forense de PDF - Writeup del Reto PicoCTF [Riddle Registry]
 difficulty: easy
 ---
 
