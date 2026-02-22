@@ -2,9 +2,9 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('blog')).filter(post => 
-  post.data.draft !== true
-);
+const posts = (await getCollection('blog'))
+  .filter(post => !post.id.startsWith('.obsidian') && !post.id.startsWith('templates/') && !post.id.startsWith('Templates/') && post.id.endsWith('.md'))
+  .filter(post => post.data.draft !== true);
 ---
 
 <BaseLayout title="Buscar - NightOps" description="Buscar artículos">
@@ -29,7 +29,7 @@ const posts = (await getCollection('blog')).filter(post =>
             ))}
           </div>
           <a href={`/blog/${post.slug}`}>
-            <h3 class="post-title text-xl font-bold group-hover:text-cyber-green transition-colors mb-2">
+            <h3 class="post-title text-xl font-bold group-hover:text-cyber-purple transition-colors mb-2">
               {post.data.title}
             </h3>
           </a>
@@ -77,7 +77,7 @@ const posts = (await getCollection('blog')).filter(post =>
           ${post.data.tags.slice(0, 3).map(tag => `<span class="cyber-tag">${tag}</span>`).join('')}
         </div>
         <a href="/blog/${post.slug}">
-          <h3 class="text-xl font-bold text-white group-hover:text-cyber-green transition-colors mb-2">
+          <h3 class="text-xl font-bold text-white group-hover:text-cyber-purple transition-colors mb-2">
             ${post.data.title}
           </h3>
         </a>

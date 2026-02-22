@@ -5,7 +5,7 @@ import TagCloud from '@/components/TagCloud.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog'))
-  .filter(post => !post.id.includes('/templates/'))
+  .filter(post => !post.id.startsWith('.obsidian') && !post.id.startsWith('templates/') && !post.id.startsWith('Templates/') && post.id.endsWith('.md'))
   .filter(post => post.data.draft !== true)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 

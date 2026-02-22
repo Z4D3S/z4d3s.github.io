@@ -1,7 +1,8 @@
 import { getCollection } from 'astro:content';
 
 export async function GET() {
-  const posts = await getCollection('blog');
+  const posts = (await getCollection('blog'))
+    .filter(post => !post.id.startsWith('.obsidian') && !post.id.startsWith('templates/') && !post.id.startsWith('Templates/') && post.id.endsWith('.md'));
   
   const filteredPosts = posts.filter(post => post.data.draft !== true);
 

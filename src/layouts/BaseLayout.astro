@@ -9,9 +9,11 @@ interface Props {
   description: string;
   image?: string;
   type?: 'website' | 'article';
+  darkBg?: boolean;
 }
 
-const { title, description, image, type } = Astro.props;
+const { title, description, image, type, darkBg = false } = Astro.props;
+const bgClass = darkBg ? 'binary-bg-dark' : 'binary-bg';
 ---
 
 <!DOCTYPE html>
@@ -26,7 +28,7 @@ const { title, description, image, type } = Astro.props;
       }
     </script>
   </head>
-  <body class="bg-cyber-black text-gray-300 min-h-screen flex flex-col binary-bg">
+  <body class={`bg-cyber-black text-gray-300 min-h-screen flex flex-col ${bgClass}`}>
     <Header />
     <main class="flex-1 pt-16 relative z-10">
       <slot />

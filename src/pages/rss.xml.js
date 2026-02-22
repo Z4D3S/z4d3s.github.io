@@ -2,9 +2,9 @@ import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 
 export async function GET(context) {
-  const posts = await getCollection('blog').then(p => 
-    p.filter(post => post.data.draft !== true)
-  );
+  const posts = (await getCollection('blog'))
+    .filter(post => !post.id.startsWith('.obsidian') && !post.id.startsWith('templates/') && !post.id.startsWith('Templates/') && post.id.endsWith('.md'))
+    .filter(post => post.data.draft !== true);
 
   return rss({
     title: 'NightOps - Blog de Ciberseguridad Blue Team',

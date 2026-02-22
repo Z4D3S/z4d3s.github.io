@@ -12,6 +12,7 @@ export async function getStaticPaths() {
 const { category } = Astro.params;
 
 const posts = (await getCollection('blog'))
+  .filter(post => !post.id.startsWith('.obsidian') && !post.id.startsWith('templates/') && !post.id.startsWith('Templates/') && post.id.endsWith('.md'))
   .filter(post => post.data.category === category && post.data.draft !== true)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 

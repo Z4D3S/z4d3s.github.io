@@ -4,7 +4,7 @@ import PostCard from '@/components/PostCard.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+  const posts = (await getCollection('blog')).filter(post => !post.id.startsWith('.obsidian') && !post.id.startsWith('templates/') && !post.id.startsWith('Templates/') && post.id.endsWith('.md'));
   const tags = [...new Set(posts.flatMap(post => post.data.tags))];
   return tags.map(tag => ({ params: { tag } }));
 }
@@ -12,6 +12,7 @@ export async function getStaticPaths() {
 const { tag } = Astro.params;
 
 const posts = (await getCollection('blog'))
+  .filter(post => !post.id.startsWith('.obsidian') && !post.id.startsWith('templates/') && !post.id.startsWith('Templates/') && post.id.endsWith('.md'))
   .filter(post => post.data.tags.includes(tag) && post.data.draft !== true)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
