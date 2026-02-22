@@ -1,7 +1,7 @@
 ---
 title: Guía de Detección de SQL Injection en Logs
 description: Aprende a identificar intentos de SQL injection en los logs de tu aplicación web. Estrategias de detección defensiva para Blue Team.
-pubDate: 2024-01-15
+pubDate: 2026-01-15
 heroImage: /images/sqli-detection.jpg
 tags:
   - sqli
