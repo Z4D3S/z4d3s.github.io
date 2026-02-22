@@ -134,3 +134,4 @@ indica que no había cifrado ni ofuscación avanzada en este reto.
 ## Referencias
 
 - [PicoCTF](https://picoctf.org)
+- [Reto DISKO-2](https://play.picoctf.org/practice/challenge/506)
