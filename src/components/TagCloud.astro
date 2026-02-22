@@ -20,7 +20,7 @@ const label = labels[lang as keyof typeof labels] || labels.es;
   <div class="flex flex-wrap gap-2">
     {tags.map(tag => (
       <a 
-        href={`/${lang}/tags/${tag}`}
+        href={`/tags/${tag}`}
         class="cyber-tag"
       >
         #{tag}
