@@ -19,6 +19,7 @@ const blog = defineCollection({
       'tools', 
       'tutorials'
     ]),
+    difficulty: z.enum(['easy', 'medium', 'hard', 'info']).default('medium'),
     draft: z.boolean().default(false),
     author: z.string().default('NightOps Team')
   })

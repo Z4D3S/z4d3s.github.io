@@ -12,7 +12,8 @@ export async function GET() {
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.pubDate.toISOString(),
-      tags: post.data.tags
+      tags: post.data.tags,
+      difficulty: post.data.difficulty
     }
   }))), {
     headers: {

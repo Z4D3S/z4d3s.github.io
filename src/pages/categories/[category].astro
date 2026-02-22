@@ -39,6 +39,7 @@ const categoryData = categories.find(c => c.id === category);
           pubDate={post.data.pubDate}
           href={`/blog/${post.slug}`}
           tags={post.data.tags}
+          difficulty={post.data.difficulty}
         />
       ))}
     </div>

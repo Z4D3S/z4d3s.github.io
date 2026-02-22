@@ -12,6 +12,16 @@ const posts = (await getCollection('blog'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const recentPosts = posts.slice(0, 4);
+
+const recentPostsData = recentPosts.map(post => ({
+  slug: post.slug,
+  title: post.data.title,
+  description: post.data.description,
+  pubDate: post.data.pubDate.toISOString(),
+  tags: post.data.tags,
+  difficulty: post.data.difficulty || 'medium'
+}));
+
 const allTags = [...new Set(posts.flatMap(post => post.data.tags))];
 
 // Get unique tools from posts
@@ -19,6 +29,14 @@ const allTools = posts.flatMap(post => post.data.tags.filter(tag =>
   ['splunk', 'wazuh', 'elk', 'yara', 'sigma', 'wireshark', 'zeek', 'volatility', 'ftk', 'autopsy', 'mitre', 'snort', 'suricata', 'grep', 'awk', 'powershell', 'python'].includes(tag.toLowerCase())
 ));
 const uniqueTools = [...new Set(allTools.map(t => t.toLowerCase()))];
+
+const difficultyLabels = { easy: 'Easy', medium: 'Medium', hard: 'Hard', info: 'Info' };
+const difficultyColors = { 
+  easy: 'bg-green-500/20 border-green-500/50 text-green-400 hover:bg-green-500/30', 
+  medium: 'bg-yellow-500/20 border-yellow-500/50 text-yellow-400 hover:bg-yellow-500/30',
+  hard: 'bg-red-500/20 border-red-500/50 text-red-400 hover:bg-red-500/30',
+  info: 'bg-blue-500/20 border-blue-500/50 text-blue-400 hover:bg-blue-500/30'
+};
 ---
 
 <BaseLayout title={siteConfig.title + ' - ' + siteConfig.subtitle} description={siteConfig.description}>
@@ -86,18 +104,28 @@ const uniqueTools = [...new Set(allTools.map(t => t.toLowerCase()))];
   
   <!-- Latest Posts -->
   <section class="max-w-6xl mx-auto px-4 py-12">
-    <h2 class="cyber-heading mb-6 flex items-center gap-2">
+    <h2 class="cyber-heading mb-4 flex items-center gap-2">
       <Icon name="file-text" class="w-5 h-5 text-cyber-accent" />
       Latest Posts
     </h2>
-    <div class="grid md:grid-cols-2 gap-6">
-      {recentPosts.map(post => (
+    
+    <!-- Difficulty Filter -->
+    <div class="flex flex-wrap gap-2 mb-6" id="difficulty-filters">
+      <button class="filter-btn active px-3 py-1 rounded text-xs font-mono uppercase border border-cyber-accent bg-cyber-accent/20 text-cyber-accent" data-difficulty="all">All</button>
+      {Object.entries(difficultyLabels).map(([key, label]) => (
+        <button class={`filter-btn px-3 py-1 rounded text-xs font-mono uppercase border ${difficultyColors[key as keyof typeof difficultyColors]}`} data-difficulty={key}>{label}</button>
+      ))}
+    </div>
+    
+    <div class="grid md:grid-cols-2 gap-6" id="posts-grid">
+      {recentPostsData.map(post => (
         <PostCard 
-          title={post.data.title}
-          description={post.data.description}
-          pubDate={post.data.pubDate}
+          title={post.title}
+          description={post.description}
+          pubDate={new Date(post.pubDate)}
           href={`/blog/${post.slug}`}
-          tags={post.data.tags}
+          tags={post.tags}
+          difficulty={post.difficulty}
         />
       ))}
     </div>
@@ -119,3 +147,59 @@ const uniqueTools = [...new Set(allTools.map(t => t.toLowerCase()))];
     </div>
   </section>
 </BaseLayout>
+
+<script define:vars={{ posts: recentPostsData, difficultyColors, difficultyLabels }}>
+  const buttons = document.querySelectorAll('.filter-btn');
+  const grid = document.getElementById('posts-grid');
+  
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => {
+        b.classList.remove('active', 'border-cyber-accent', 'bg-cyber-accent/20', 'text-cyber-accent');
+        b.classList.add('border-cyber-border');
+      });
+      btn.classList.add('active', 'border-cyber-accent', 'bg-cyber-accent/20', 'text-cyber-accent');
+      btn.classList.remove('border-cyber-border');
+      
+      const difficulty = btn.getAttribute('data-difficulty');
+      
+      if (difficulty === 'all') {
+        renderPosts(posts);
+      } else {
+        const filtered = posts.filter(p => (p.difficulty || 'medium') === difficulty);
+        renderPosts(filtered);
+      }
+    });
+  });
+  
+  function renderPosts(postsToRender) {
+    if (postsToRender.length === 0) {
+      grid.innerHTML = '<p class="text-gray-400 col-span-2 text-center py-8">No hay posts con esta dificultad</p>';
+      return;
+    }
+    
+    grid.innerHTML = postsToRender.map(post => {
+      const diff = post.difficulty || 'medium';
+      return `
+      <article class="cyber-card group">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="px-2 py-0.5 rounded text-xs font-mono uppercase border ${difficultyColors[diff]}">${difficultyLabels[diff]}</span>
+          <div class="flex flex-wrap gap-2">
+            ${post.tags.slice(0, 3).map(tag => `<span class="cyber-tag">${tag}</span>`).join('')}
+          </div>
+        </div>
+        <a href="/blog/${post.slug}">
+          <h3 class="text-xl font-bold text-white group-hover:text-cyber-purple transition-colors mb-2">${post.title}</h3>
+        </a>
+        <p class="text-gray-400 text-sm mb-4 line-clamp-2">${post.description}</p>
+        <div class="flex items-center justify-between text-xs text-gray-500">
+          <time>${new Date(post.pubDate).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+          <a href="/blog/${post.slug}" class="text-cyber-purple hover:underline">Leer más →</a>
+        </div>
+      </article>
+    `}).join('');
+  }
+</script>
+    `).join('');
+  }
+</script>

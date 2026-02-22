@@ -2,7 +2,7 @@
 author: yusnelgg
 category: forensics
 description: Proceso de análisis forense sobre una imagen de disco .dd, identificación de particiones y extracción de evidencia utilizando strings y grep.
-heroImage: /images/forensics-dd-analysis.jpg
+heroImage: /images/forensics-dd-analysis.avif
 pubDate: 2026-02-21
 tags:
   - forensics
@@ -10,7 +10,8 @@ tags:
   - picoctf
   - strings
   - linux
-title: Análisis Forense de Imagen .dd - Writeup del Reto PicoCTF
+title: Análisis Forense de Imagen .dd - Writeup del Reto PicoCTF [DISKO-2]
+difficulty: medium
 ---
 
 ## Introducción

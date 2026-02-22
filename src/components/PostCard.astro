@@ -5,34 +5,36 @@ interface Props {
   pubDate: Date;
   href: string;
   tags: string[];
-  lang?: string;
+  difficulty?: 'easy' | 'medium' | 'hard' | 'info';
 }
 
-const { title, description, pubDate, href, tags, lang = 'es' } = Astro.props;
+const { title, description, pubDate, href, tags, difficulty = 'medium' } = Astro.props;
 
-const localeMap = { es: 'es-ES', en: 'en-US', pt: 'pt-BR' };
-const locale = localeMap[lang as keyof typeof localeMap] || 'es-ES';
-
-const formattedDate = pubDate.toLocaleDateString(locale, {
+const formattedDate = pubDate.toLocaleDateString('es-ES', {
   year: 'numeric',
   month: 'long',
   day: 'numeric'
 });
 
-const labels = {
-  es: 'Leer más',
-  en: 'Read more',
-  pt: 'Ler mais'
+const difficultyLabels = { easy: 'Easy', medium: 'Medium', hard: 'Hard', info: 'Info' };
+const difficultyColors = { 
+  easy: 'bg-green-500/20 border-green-500/50 text-green-400', 
+  medium: 'bg-yellow-500/20 border-yellow-500/50 text-yellow-400',
+  hard: 'bg-red-500/20 border-red-500/50 text-red-400',
+  info: 'bg-blue-500/20 border-blue-500/50 text-blue-400'
 };
-
-const readMore = labels[lang as keyof typeof labels] || labels.es;
 ---
 
 <article class="cyber-card group">
-  <div class="flex flex-wrap gap-2 mb-3">
-    {tags.slice(0, 3).map(tag => (
-      <span class="cyber-tag">{tag}</span>
-    ))}
+  <div class="flex items-center gap-2 mb-3">
+    <span class={`px-2 py-0.5 rounded text-xs font-mono uppercase border ${difficultyColors[difficulty]}`}>
+      {difficultyLabels[difficulty]}
+    </span>
+    <div class="flex flex-wrap gap-2">
+      {tags.slice(0, 3).map(tag => (
+        <span class="cyber-tag">{tag}</span>
+      ))}
+    </div>
   </div>
   
   <a href={href}>
@@ -47,8 +49,8 @@ const readMore = labels[lang as keyof typeof labels] || labels.es;
   
   <div class="flex items-center justify-between text-xs text-gray-500">
     <time datetime={pubDate.toISOString()}>{formattedDate}</time>
-    <a href={href} class="text-cyber-green hover:underline">
-      {readMore} →
+    <a href={href} class="text-cyber-purple hover:underline">
+      Leer más →
     </a>
   </div>
 </article>
