@@ -11,7 +11,7 @@ tags:
 - base64
 - hex
 - png
-title: Análisis Forense Multicapa - Writeup del Reto PicoCTF
+title: Análisis Forense Multicapa - Writeup del Reto PicoCTF [Flag in Flame]
 ---
 
 ## Introducción
