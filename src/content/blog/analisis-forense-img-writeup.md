@@ -122,7 +122,7 @@ Se detectaron múltiples archivos llamados:
 Estos archivos estaban eliminados lógicamente, pero sus datos físicos
 aún persistían en los bloques del disco.
 
-![Estructura de particiones identificada con fdisk](/public/images/dear-diary/autopsy.avif)
+![Estructura de particiones identificada con fdisk](/images/dear-diary/autopsy.avif)
 
 ------------------------------------------------------------------------
 
