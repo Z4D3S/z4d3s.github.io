@@ -1,5 +1,5 @@
 ---
-author: yusnelgg
+author: x0k
 category: forensics
 description: Análisis forense multicapa de archivo codificado en Base64 que revela una imagen PNG con datos hexadecimales ocultos y recuperación de flag.
 difficulty: easy

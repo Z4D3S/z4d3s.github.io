@@ -1,5 +1,5 @@
 ---
-author: yusnelgg
+author: x0k
 category: forensics
 description: Proceso de análisis forense sobre una imagen de disco .dd, identificación de particiones y extracción de evidencia utilizando strings y grep.
 heroImage: /images/forensics-dd-analysis.avif

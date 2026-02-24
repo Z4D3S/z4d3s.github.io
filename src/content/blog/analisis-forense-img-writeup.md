@@ -1,5 +1,5 @@
 ---
-author: yusnelgg
+author: x0k
 category: forensics
 description: Análisis forense de imagen de disco ext4 con recuperación
   de archivos borrados y reconstrucción manual de sectores para obtener

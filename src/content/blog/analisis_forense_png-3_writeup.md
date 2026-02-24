@@ -1,5 +1,5 @@
 ---
-author: yusnelgg
+author: x0k
 category: forensics
 description: Análisis forense de imagen PNG que contenía un archivo ZIP
   embebido. Mediante binwalk se identificó y extrajo un directorio

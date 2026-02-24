@@ -1,5 +1,5 @@
 ---
-author: yusnelgg
+author: x0k
 category: forensics
 description: Análisis forense de un archivo PDF, identificación de información oculta y recuperación de una flag codificada en Base64 dentro del campo Author.
 heroImage: /images/pdf-forensics-analysis.avif

@@ -1,5 +1,5 @@
 ---
-author: yusnelgg
+author: x0k
 category: forensics
 description: Análisis forense de imagen PNG sin metadatos aparentes
   donde se descubre información oculta mediante esteganografía LSB
