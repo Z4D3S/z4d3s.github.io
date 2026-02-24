@@ -192,8 +192,8 @@ Esta cadena presentaba un patrón consistente de codificación Base16 (hexadecim
 
 La cadena detectada presentaba las siguientes características:
 
--   Uso exclusivo de caracteres 0--9 y A--F\
--   Longitud considerable\
+-   Uso exclusivo de caracteres 0--9 y A--F
+-   Longitud considerable
 -   Patrón consistente en pares de caracteres
 
 Esto sugiere codificación Base16 (Hexadecimal), donde cada par representa un byte ASCII.
@@ -222,9 +222,9 @@ picoCTF{forensics_analysis_is_amazing_2561a194}
 
 ## Flujo de Capas Detectado
 
-1.  Capa 1: Base64 (Transporte de datos)\
-2.  Capa 2: Archivo PNG (Contenedor)\
-3.  Capa 3: Cadena Hexadecimal (Ofuscación)\
+1.  Capa 1: Base64 (Transporte de datos)
+2.  Capa 2: Archivo PNG (Contenedor)
+3.  Capa 3: Cadena Hexadecimal (Ofuscación)
 4.  Capa 4: Texto plano (Flag)
 
 ------------------------------------------------------------------------
@@ -233,16 +233,16 @@ picoCTF{forensics_analysis_is_amazing_2561a194}
 
 En un entorno real, este tipo de técnica puede utilizarse para:
 
--   Ocultar datos en archivos aparentemente legítimos.\
--   Transferir información encubierta.\
--   Evasión básica de sistemas de inspección superficial.\
+-   Ocultar datos en archivos aparentemente legítimos.
+-   Transferir información encubierta.
+-   Evasión básica de sistemas de inspección superficial.
 -   Encapsular fragmentos de código o payloads.
 
 Desde una perspectiva defensiva es recomendable:
 
--   Validar tipos reales de archivo.\
--   Analizar contenido binario cuando existan sospechas.\
--   Automatizar detección de patrones Base64 y Hex.\
+-   Validar tipos reales de archivo.
+-   Analizar contenido binario cuando existan sospechas.
+-   Automatizar detección de patrones Base64 y Hex.
 -   No confiar únicamente en la extensión del archivo.
 
 ------------------------------------------------------------------------
@@ -253,9 +253,9 @@ Este análisis demuestra la importancia de abordar archivos sospechosos desde un
 
 Un proceso forense efectivo requiere:
 
--   Identificar el formato externo.\
--   Validar cada transformación.\
--   Detectar patrones de codificación comunes.\
+-   Identificar el formato externo.
+-   Validar cada transformación.
+-   Detectar patrones de codificación comunes.
 -   Confirmar hipótesis mediante pruebas técnicas.
 
 En ciberseguridad defensiva, los datos rara vez se presentan en una sola capa.
