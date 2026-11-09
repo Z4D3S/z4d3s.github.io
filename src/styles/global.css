@@ -504,3 +504,122 @@ html.motion-off .fade-in {
     transform: none;
   }
 }
+
+/* Post-entry terminal animation */
+.post-shell {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background-color: rgb(var(--ink) / 0.45);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  animation: post-shell-in 180ms ease-out forwards;
+}
+
+.post-shell.is-closing {
+  animation: post-shell-out 260ms ease-in forwards;
+}
+
+.post-shell__window {
+  width: min(90vw, 640px);
+  border-radius: 0.6rem;
+  overflow: hidden;
+  border: 1px solid rgb(var(--line));
+  background-color: rgb(var(--code-bg));
+  color: rgb(var(--code-text));
+  box-shadow: 0 24px 70px rgb(0 0 0 / 0.45);
+  font-family: 'IBM Plex Mono', 'Fira Code', Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  transform: scale(0.96);
+  animation: post-window-in 220ms ease-out forwards;
+}
+
+.post-shell.is-closing .post-shell__window {
+  animation: post-window-out 220ms ease-in forwards;
+}
+
+.post-shell__titlebar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid rgb(var(--code-text) / 0.12);
+  background-color: rgb(var(--code-text) / 0.06);
+}
+
+.post-shell__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+}
+
+.post-shell__dot--red { background-color: #ff5f57; }
+.post-shell__dot--yellow { background-color: #febc2e; }
+.post-shell__dot--green { background-color: #28c840; }
+
+.post-shell__title {
+  margin-left: 0.5rem;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(var(--code-text) / 0.55);
+}
+
+.post-shell__body {
+  padding: 1rem 1.2rem;
+}
+
+.post-shell__prompt {
+  color: rgb(var(--code-text));
+}
+
+.post-shell__user {
+  color: #28c840;
+}
+
+.post-shell__path {
+  color: rgb(var(--code-text) / 0.55);
+}
+
+.post-shell__caret {
+  color: #28c840;
+  animation: cursor-blink 1s step-end infinite;
+}
+
+.post-shell__out {
+  margin-top: 0.35rem;
+  color: rgb(var(--code-text) / 0.7);
+  opacity: 0;
+  animation: theme-shell-line 200ms ease forwards;
+}
+
+.post-shell__out[data-delay='1'] { animation-delay: 300ms; }
+.post-shell__out[data-delay='2'] { animation-delay: 440ms; }
+
+.post-shell__ok {
+  color: #28c840;
+}
+
+@keyframes post-shell-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes post-shell-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes post-window-in {
+  from { transform: scale(0.94); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes post-window-out {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(0.96); opacity: 0; }
+}
