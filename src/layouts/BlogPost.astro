@@ -28,7 +28,7 @@ const formattedUpdated = updatedDate?.toLocaleDateString('es-ES', { year: 'numer
   </head>
   <body class="flex min-h-screen flex-col bg-paper text-ink">
     <Header />
-    <main class="flex-1">
+    <main class="flex-1 page-enter">
       <article class="mx-auto max-w-3xl px-6 py-12 sm:py-16">
         <a href="/blog" class="text-sm text-muted transition-colors hover:text-ink">
           &larr; Artículos
@@ -66,6 +66,66 @@ const formattedUpdated = updatedDate?.toLocaleDateString('es-ES', { year: 'numer
         </div>
 
         <CodeEnhancer />
+
+  <script define:vars={{ slug: post.slug }}>
+    const root = document.documentElement;
+    function motionDisabled() {
+      return (
+        root.classList.contains('motion-off') ||
+        (!root.classList.contains('motion-on') &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+      );
+    }
+
+    if (!motionDisabled()) {
+      const shell = document.createElement('div');
+      shell.className = 'theme-shell';
+      shell.setAttribute('aria-hidden', 'true');
+      shell.innerHTML = `
+        <div class="theme-shell__bar">
+          <span>z4des@blog</span>
+          <span>article view</span>
+        </div>
+        <div class="theme-shell__body">
+          <p class="theme-shell__prompt">
+            <span class="theme-shell__user">z4des@blog</span><span class="theme-shell__path">:~$</span>
+            <span data-cmd></span><span class="theme-shell__caret">_</span>
+          </p>
+          <p class="theme-shell__out" data-delay="1">
+            <span class="theme-shell__ok">[ ok ]</span> artículo cargado
+          </p>
+          <p class="theme-shell__out" data-delay="2">
+            <span class="theme-shell__ok">[ ok ]</span> markdown renderizado
+          </p>
+        </div>
+      `;
+      document.body.append(shell);
+
+      const command = `cat ${slug}.md`;
+      const commandEl = shell.querySelector('[data-cmd]');
+      let index = 0;
+      const typer = window.setInterval(() => {
+        index += 1;
+        if (commandEl) commandEl.textContent = command.slice(0, index);
+        if (index >= command.length) window.clearInterval(typer);
+      }, 22);
+
+      let active = true;
+      const cleanup = () => {
+        if (!active) return;
+        active = false;
+        shell.remove();
+      };
+
+      const close = () => {
+        shell.classList.add('is-closing');
+        shell.addEventListener('transitionend', cleanup, { once: true });
+        window.setTimeout(cleanup, 600);
+      };
+
+      window.setTimeout(close, 900);
+    }
+  </script>
 
         {tags.length > 0 && (
           <footer class="mt-14 border-t border-line pt-6">

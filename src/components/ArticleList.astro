@@ -6,7 +6,7 @@ interface Props {
 const { posts } = Astro.props;
 ---
 
-<ul class="divide-y divide-line">
+<ul class="article-list divide-y divide-line">
   {posts.map((post: any) => {
     const p = post.data ? post : { data: post };
     const d = p.data;

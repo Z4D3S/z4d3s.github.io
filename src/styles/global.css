@@ -420,3 +420,87 @@ html.motion-off [data-motion-dot] {
   outline: 1px solid rgb(var(--code-text) / 0.5);
   outline-offset: -3px;
 }
+
+/* Page entrance */
+.page-enter {
+  animation: page-enter 320ms ease-out both;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Article list staggered entrance */
+.article-list li {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: fade-up 420ms ease-out forwards;
+}
+
+.article-list li:nth-child(1) { animation-delay: 40ms; }
+.article-list li:nth-child(2) { animation-delay: 80ms; }
+.article-list li:nth-child(3) { animation-delay: 120ms; }
+.article-list li:nth-child(4) { animation-delay: 160ms; }
+.article-list li:nth-child(5) { animation-delay: 200ms; }
+.article-list li:nth-child(6) { animation-delay: 240ms; }
+.article-list li:nth-child(7) { animation-delay: 280ms; }
+.article-list li:nth-child(8) { animation-delay: 320ms; }
+.article-list li:nth-child(9) { animation-delay: 360ms; }
+.article-list li:nth-child(10) { animation-delay: 400ms; }
+.article-list li:nth-child(n+11) { animation-delay: 440ms; }
+
+@keyframes fade-up {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Search results fade-in */
+.fade-in {
+  animation: fade-in 220ms ease-out both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Code copy press feedback */
+.code-shell__copy:active {
+  transform: scale(0.96);
+}
+
+/* Disable new entrance animations when motion is off */
+html.motion-off .page-enter,
+html.motion-off .article-list li,
+html.motion-off .fade-in {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not(.motion-on) .page-enter,
+  html:not(.motion-on) .article-list li,
+  html:not(.motion-on) .fade-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

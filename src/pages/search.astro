@@ -50,7 +50,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
   function makeRow(post: Post) {
     const link = document.createElement('a');
     link.href = `/blog/${post.slug}`;
-    link.className = 'group block py-4';
+    link.className = 'group block py-4 fade-in';
 
     const title = document.createElement('span');
     title.className = 'block text-ink underline-offset-4 group-hover:underline';
