@@ -1,6 +1,7 @@
 ---
 author: x0k
 category: forensics
+event: PicoCTF
 description: Análisis forense de un archivo PDF, identificación de información oculta y recuperación de una flag codificada en Base64 dentro del campo Author.
 heroImage: /images/pdf-forensics-analysis.avif
 pubDate: 2026-02-15
@@ -84,7 +85,7 @@ investigaciones forenses.
 > - Respuesta a incidentes  
 > - Investigación de fugas de información  
 >  
-> En entornos Blue Team, es clave para detectar exposición pasiva de datos sensibles.
+> En entornos ofensivos, es clave para detectar exposición pasiva de datos sensibles.
 
 ``` bash
 exiftool confidential.pdf
@@ -130,7 +131,7 @@ Para confirmar la hipótesis, se procedió a decodificar la cadena:
 > - Datos ocultos en metadatos  
 > - Scripts ofuscados  
 >  
-> Reconocer patrones Base64 es una habilidad básica en análisis SOC y threat hunting.
+> Reconocer patrones Base64 es una habilidad básica en análisis ofensivo y red teaming.
 
 ``` bash
 echo "cGljb0NURntwdXp6bDNkX20zdGFkYXRhX2YwdW5kIV9mOTQzMDBjNH0=" | base64 -d

@@ -1,43 +1,24 @@
 ---
+import MotionToggle from './MotionToggle.astro';
 import { siteConfig } from '../config/theme';
+
+const year = new Date().getFullYear();
 ---
 
-<footer id="main-footer" class="border-t border-cyber-border bg-cyber-dark mt-16">
-  <div class="max-w-6xl mx-auto px-4 py-8">
-    <div class="grid md:grid-cols-2 gap-8">
-      <div>
-        <img src="/images/logo.png" alt={siteConfig.title} class="h-10 w-auto mb-3" />
-        <p class="mt-3 text-gray-500 text-sm font-mono">
-          &gt; {siteConfig.description}
-        </p>
-        <p class="mt-2 text-gray-600 text-xs font-mono">
-          $ whoami<br/>
-          &gt; {siteConfig.author}
-        </p>
-      </div>
-      
-      <div>
-        <h4 class="text-gray-400 font-mono text-sm mb-3">// NAV</h4>
-        <ul class="space-y-1 text-sm font-mono">
-          <li><a href="/blog" class="text-cyber-accent hover:underline">/blog</a></li>
-          <li><a href="/search" class="text-cyber-accent hover:underline">/search</a></li>
-          <li><a href="/resources" class="text-cyber-accent hover:underline">/resources</a></li>
-          <li><a href="/rss.xml" class="text-cyber-accent hover:underline">/rss</a></li>
-        </ul>
-      </div>
+<footer class="mt-24 border-t border-line">
+  <div class="mx-auto flex max-w-3xl flex-col gap-3 px-6 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+      <p>&copy; {year} {siteConfig.title}</p>
+      <span class="text-muted/40" aria-hidden="true">/</span>
+      <MotionToggle />
     </div>
-    
-    <div class="border-t border-cyber-border mt-6 pt-4 text-center">
-      <p class="text-gray-600 text-xs font-mono">
-        <span class="text-cyber-accent">$</span> cat footer.txt<br/>
-        &copy; {new Date().getFullYear()} {siteConfig.title} - All rights reserved.
-      </p>
+
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+      <a href="/blog" class="transition-colors hover:text-ink">Artículos</a>
+      <a href="/challenges" class="transition-colors hover:text-ink">Retos</a>
+      <a href="/tags" class="transition-colors hover:text-ink">Etiquetas</a>
+      <a href="/rss.xml" class="transition-colors hover:text-ink">RSS</a>
+      <span class="font-mono text-[11px] uppercase tracking-wider text-accent" aria-hidden="true">EOF</span>
     </div>
   </div>
 </footer>
-
-<style is:global>
-  html.light #main-footer {
-    @apply bg-gray-100 border-gray-200;
-  }
-</style>

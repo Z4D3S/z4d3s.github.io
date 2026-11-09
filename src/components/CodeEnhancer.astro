@@ -1,0 +1,90 @@
+---
+---
+
+<script>
+  function copyWithFallback(text: string): Promise<void> {
+    if (navigator.clipboard?.writeText && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).catch(() => legacyCopy(text));
+    }
+
+    return legacyCopy(text);
+  }
+
+  function legacyCopy(text: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const area = document.createElement('textarea');
+      area.value = text;
+      area.setAttribute('readonly', '');
+      area.style.position = 'fixed';
+      area.style.top = '0';
+      area.style.left = '-9999px';
+      document.body.appendChild(area);
+      area.select();
+
+      try {
+        const ok = document.execCommand('copy');
+        if (ok) resolve();
+        else reject(new Error('No se pudo copiar'));
+      } catch (error) {
+        reject(error);
+      } finally {
+        area.remove();
+      }
+    });
+  }
+
+  document.querySelectorAll<HTMLPreElement>('.prose pre').forEach((pre) => {
+    if (pre.closest('.code-shell')) return;
+
+    const code = pre.querySelector('code');
+    if (!code) return;
+
+    const language = (pre.dataset.language || 'code').toLowerCase();
+    const wrapper = document.createElement('div');
+    wrapper.className = 'code-shell';
+
+    pre.parentNode?.insertBefore(wrapper, pre);
+    wrapper.appendChild(pre);
+
+    const bar = document.createElement('div');
+    bar.className = 'code-shell__bar';
+
+    const label = document.createElement('span');
+    label.className = 'code-shell__lang';
+    label.textContent = language;
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'code-shell__copy';
+    button.textContent = 'copiar';
+    button.setAttribute('aria-label', 'Copiar código');
+    button.setAttribute('aria-live', 'polite');
+
+    bar.append(label, button);
+    wrapper.insertBefore(bar, pre);
+
+    let resetTimer: number | undefined;
+
+    button.addEventListener('click', async () => {
+      const text = (code.textContent || '').replace(/\n$/, '');
+
+      try {
+        await copyWithFallback(text);
+        button.textContent = 'copiado';
+        button.classList.add('is-copied');
+        button.setAttribute('aria-label', 'Copiado');
+      } catch {
+        button.textContent = 'error';
+        button.classList.add('is-failed');
+        button.setAttribute('aria-label', 'No se pudo copiar');
+      }
+
+      window.clearTimeout(resetTimer);
+      resetTimer = window.setTimeout(() => {
+        button.textContent = 'copiar';
+        button.classList.remove('is-copied', 'is-failed');
+        button.setAttribute('aria-label', 'Copiar código');
+      }, 1800);
+    });
+  });
+</script>

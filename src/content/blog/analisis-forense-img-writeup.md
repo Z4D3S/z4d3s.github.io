@@ -1,6 +1,7 @@
 ---
 author: x0k
 category: forensics
+event: PicoCTF
 description: Análisis forense de imagen de disco ext4 con recuperación
   de archivos borrados y reconstrucción manual de sectores para obtener
   la flag del reto Dear Diary.

@@ -1,0 +1,28 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404 - z4des" description="Página no encontrada">
+  <section class="mx-auto max-w-3xl px-6 py-20 sm:py-28">
+    <p class="font-mono text-xs text-muted">
+      <span class="text-accent">$</span> cd /la-que-buscabas
+    </p>
+    <p class="mt-1 font-mono text-xs text-muted">cd: no existe el archivo o el directorio</p>
+
+    <h1 class="mt-6 text-7xl font-semibold leading-none tracking-tight text-ink sm:text-8xl">404</h1>
+    <p class="mt-5 max-w-md text-muted">
+      Esa ruta no existe o se movió. Puedes volver al inicio, leer los artículos o buscar en el archivo.
+    </p>
+
+    <nav aria-label="Enlaces de recuperación" class="mt-10 flex flex-wrap gap-x-6 gap-y-3 font-mono text-xs">
+      <a href="/" class="text-ink underline decoration-muted/40 underline-offset-4 hover:decoration-accent">~/</a>
+      <a href="/blog" class="text-ink underline decoration-muted/40 underline-offset-4 hover:decoration-accent">~/artículos</a>
+      <a href="/challenges" class="text-ink underline decoration-muted/40 underline-offset-4 hover:decoration-accent">~/retos</a>
+      <a href="/search" class="text-ink underline decoration-muted/40 underline-offset-4 hover:decoration-accent">~/búsqueda</a>
+    </nav>
+
+    <p class="mt-16 font-mono text-[11px] uppercase tracking-wider text-muted" aria-hidden="true">
+      <span class="text-accent">[</span> exit 1 <span class="text-accent">]</span>
+    </p>
+  </section>
+</BaseLayout>

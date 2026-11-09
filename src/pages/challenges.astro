@@ -1,0 +1,45 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ArticleList from '@/components/ArticleList.astro';
+import { getCollection } from 'astro:content';
+import { isVisiblePost, isChallenge, sortByDateDesc } from '@/utils/blog';
+
+const challenges = (await getCollection('blog'))
+  .filter(isVisiblePost)
+  .filter(isChallenge)
+  .sort(sortByDateDesc);
+
+const groups = challenges.reduce((acc, post) => {
+  const event = post.data.event as string;
+  (acc[event] ||= []).push(post);
+  return acc;
+}, {} as Record<string, typeof challenges>);
+
+const events = Object.entries(groups).sort(
+  (a, b) => b[1][0].data.pubDate.valueOf() - a[1][0].data.pubDate.valueOf()
+);
+---
+
+<BaseLayout title="Retos - z4des" description="Retos CTF y análisis">
+  <section class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <header class="mb-10">
+      <p class="font-mono text-xs text-muted"><span class="text-accent">$</span> ls ~/retos</p>
+      <h1 class="mt-2 text-4xl font-semibold text-ink">Retos</h1>
+      <p class="mt-2 text-muted">Retos de CTF, separados de los artículos.</p>
+    </header>
+
+    {events.map(([event, posts]) => (
+      <section class="mt-12 first:mt-0">
+        <div class="flex items-baseline justify-between border-b border-line pb-2">
+          <h2 class="font-mono text-[11px] font-normal uppercase tracking-[0.2em] text-muted">
+            <span class="text-accent">/</span> {event}
+          </h2>
+          <span class="font-mono text-[11px] tabular-nums text-muted">{posts.length}</span>
+        </div>
+        <ArticleList posts={posts} />
+      </section>
+    ))}
+
+    {events.length === 0 && <p class="text-muted">Aún no hay retos.</p>}
+  </section>
+</BaseLayout>

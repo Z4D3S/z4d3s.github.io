@@ -4,7 +4,7 @@ import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://cyberblue.blog',
+  site: 'https://z4d3s.blog',
   integrations: [
     mdx(),
     tailwind(),

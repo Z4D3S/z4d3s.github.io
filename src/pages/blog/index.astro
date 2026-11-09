@@ -1,96 +1,29 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import Icon from '@/components/Icon.astro';
-import TagCloud from '@/components/TagCloud.astro';
+import ArticleList from '@/components/ArticleList.astro';
 import { getCollection } from 'astro:content';
+import { isVisiblePost, isChallenge, sortByDateDesc } from '@/utils/blog';
 
 const posts = (await getCollection('blog'))
-  .filter(post => !post.id.startsWith('.obsidian') && !post.id.startsWith('templates/') && !post.id.startsWith('Templates/') && post.id.endsWith('.md'))
-  .filter(post => post.data.draft !== true)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-const allTags = [...new Set(posts.flatMap(post => post.data.tags))];
-
-const difficultyColors = { 
-  easy: 'bg-green-500/20 border-green-500/50 text-green-400', 
-  medium: 'bg-yellow-500/20 border-yellow-500/50 text-yellow-400',
-  hard: 'bg-red-500/20 border-red-500/50 text-red-400',
-  info: 'bg-blue-500/20 border-blue-500/50 text-blue-400'
-};
-const difficultyLabels = { easy: 'Easy', medium: 'Medium', hard: 'Hard', info: 'Info' };
+  .filter(isVisiblePost)
+  .filter(post => !isChallenge(post))
+  .sort(sortByDateDesc);
 ---
 
-<BaseLayout title="Blog - NightOps" description="Todos los artículos de ciberseguridad">
-  <section class="max-w-4xl mx-auto px-4 py-12">
-    <h1 class="cyber-heading mb-4">Artículos</h1>
-    
-    <!-- Difficulty Filter -->
-    <div class="flex flex-wrap gap-2 mb-6" id="difficulty-filters">
-      <button class="filter-btn active px-3 py-1 rounded text-xs font-mono uppercase border border-cyber-accent bg-cyber-accent/20 text-cyber-accent" data-difficulty="all">All</button>
-      {Object.entries(difficultyLabels).map(([key, label]) => (
-        <button class={`filter-btn px-3 py-1 rounded text-xs font-mono uppercase border ${difficultyColors[key as keyof typeof difficultyColors]}`} data-difficulty={key}>{label}</button>
-      ))}
-    </div>
-    
-    <div class="space-y-4" id="posts-list">
-      {posts.map(post => (
-        <a href={`/blog/${post.slug}`} class="block group" data-difficulty={post.data.difficulty || 'medium'}>
-          <article class="cyber-card group-hover:border-cyber-accent/70 transition-all duration-200">
-            <div class="flex items-start justify-between gap-4">
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-3 mb-2">
-                  <span class={`text-xs font-mono uppercase px-2 py-0.5 rounded border ${difficultyColors[post.data.difficulty || 'medium']}`}>
-                    {difficultyLabels[post.data.difficulty || 'medium']}
-                  </span>
-                  <time class="text-xs text-gray-500 font-mono">
-                    {post.data.pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric' })}
-                  </time>
-                </div>
-                <h2 class="text-lg font-bold text-white group-hover:text-cyber-accent transition-colors mb-2 truncate">
-                  {post.data.title}
-                </h2>
-                <p class="text-sm text-gray-400 line-clamp-2">
-                  {post.data.description}
-                </p>
-                <div class="flex flex-wrap gap-2 mt-3">
-                  {post.data.tags.slice(0, 4).map(tag => (
-                    <span class="text-xs text-gray-500">#{tag}</span>
-                  ))}
-                </div>
-              </div>
-              <Icon name="chevron-right" class="w-5 h-5 text-gray-600 group-hover:text-cyber-accent transition-colors flex-shrink-0" />
-            </div>
-          </article>
-        </a>
-      ))}
+<BaseLayout title="Artículos - z4des" description="Todos los artículos">
+  <section class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <header class="mb-10">
+      <p class="font-mono text-xs text-muted"><span class="text-accent">$</span> ls ~/artículos</p>
+      <h1 class="mt-2 text-4xl font-semibold text-ink">Artículos</h1>
+      <p class="mt-2 text-muted">Análisis, notas e investigación.</p>
+    </header>
+
+    <ArticleList posts={posts} />
+
+    <div class="mt-10 border-t border-line pt-6">
+      <a href="/challenges" class="font-mono text-xs text-muted transition-colors hover:text-ink">
+        Retos CTF &rarr;
+      </a>
     </div>
   </section>
 </BaseLayout>
-
-<script>
-  const buttons = document.querySelectorAll('.filter-btn');
-  const postsList = document.getElementById('posts-list');
-  const postElements = document.querySelectorAll('#posts-list > a');
-  
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      buttons.forEach(b => {
-        b.classList.remove('active', 'border-cyber-accent', 'bg-cyber-accent/20', 'text-cyber-accent');
-        b.classList.add('border-cyber-border');
-      });
-      btn.classList.add('active', 'border-cyber-accent', 'bg-cyber-accent/20', 'text-cyber-accent');
-      btn.classList.remove('border-cyber-border');
-      
-      const difficulty = btn.getAttribute('data-difficulty');
-      
-      postElements.forEach(post => {
-        const postDifficulty = post.getAttribute('data-difficulty') || 'medium';
-        if (difficulty === 'all' || postDifficulty === difficulty) {
-          (post as HTMLElement).style.display = 'block';
-        } else {
-          (post as HTMLElement).style.display = 'none';
-        }
-      });
-    });
-  });
-</script>

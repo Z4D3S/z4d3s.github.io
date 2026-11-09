@@ -3,74 +3,83 @@ import type { CollectionEntry } from 'astro:content';
 import BaseHead from '@/components/BaseHead.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
+import CodeEnhancer from '@/components/CodeEnhancer.astro';
 import '@/styles/global.css';
+import { readingTime } from '@/utils/readingTime';
+import { categories, difficultyLabels } from '@/config/theme';
 
 interface Props {
   post: CollectionEntry<'blog'>;
 }
 
 const { post } = Astro.props;
-const { title, description, pubDate, updatedDate, heroImage, tags, author, difficulty } = post.data;
-
-const dateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-const locale = 'es-ES';
-
-const formattedDate = pubDate.toLocaleDateString(locale, dateOptions);
-const formattedUpdated = updatedDate?.toLocaleDateString(locale, dateOptions);
-
-const difficultyLabels = { easy: 'Easy', medium: 'Medium', hard: 'Hard', info: 'Info' };
-const difficultyColors = { 
-  easy: 'bg-green-500/20 border-green-500/50 text-green-400', 
-  medium: 'bg-yellow-500/20 border-yellow-500/50 text-yellow-400',
-  hard: 'bg-red-500/20 border-red-500/50 text-red-400',
-  info: 'bg-blue-500/20 border-blue-500/50 text-blue-400'
-};
-const difficultyColor = difficultyColors[difficulty || 'medium'];
+const { title, description, pubDate, updatedDate, heroImage, tags, category, difficulty } = post.data;
+const rt = readingTime(post.body || '');
+const categoryLabel = categories.find(c => c.id === category)?.label || category;
+const difficultyLabel = difficultyLabels[difficulty];
+const formattedDate = pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+const formattedUpdated = updatedDate?.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
 
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es">
   <head>
     <BaseHead title={title} description={description} image={heroImage} type="article" />
   </head>
-  <body class="bg-cyber-black text-gray-300 min-h-screen flex flex-col binary-bg-dark">
+  <body class="flex min-h-screen flex-col bg-paper text-ink">
     <Header />
-    <main class="flex-1 pt-16">
-      <article class="max-w-4xl mx-auto px-4 py-12">
-        {heroImage && (
-          <div class="mb-8 rounded-lg overflow-hidden border border-cyber-border">
-            <img src={heroImage} alt={title} class="w-full h-64 object-cover" />
-          </div>
-        )}
-        
-        <header class="mb-8">
-          <div class="flex flex-wrap gap-2 mb-4">
-            <span class={`px-2 py-0.5 rounded text-xs font-mono uppercase border ${difficultyColor}`}>{difficultyLabels[difficulty || 'medium']}</span>
-            {tags.map(tag => (
-              <a href={`/tags/${tag}`} class="cyber-tag">#{tag}</a>
-            ))}
-          </div>
-          
-          <h1 class="text-4xl font-bold text-white mb-4">{title}</h1>
-          
-          <div class="flex items-center gap-4 text-sm text-gray-400">
-            <span>Por {author}</span>
+    <main class="flex-1">
+      <article class="mx-auto max-w-3xl px-6 py-12 sm:py-16">
+        <a href="/blog" class="text-sm text-muted transition-colors hover:text-ink">
+          &larr; Artículos
+        </a>
+
+        <header class="mt-6 border-b border-line pb-8">
+          <p class="font-mono text-[11px] uppercase tracking-[0.15em] text-accent">/ {categoryLabel}</p>
+          <h1 class="mt-3 text-4xl font-semibold leading-[1.1] text-ink sm:text-5xl">{title}</h1>
+
+          {description && <p class="mt-4 text-lg leading-relaxed text-muted">{description}</p>}
+
+          <div class="mt-6 flex flex-wrap items-center gap-x-2 font-mono text-[12px] tracking-wide text-muted">
             <time datetime={pubDate.toISOString()}>{formattedDate}</time>
-            {updatedDate && <span class="text-cyber-yellow">({formattedUpdated})</span>}
+            <span aria-hidden="true">&middot;</span>
+            <span>{rt} min de lectura</span>
+            <span aria-hidden="true">&middot;</span>
+            <span class="uppercase">{difficultyLabel}</span>
+            {updatedDate && (
+              <>
+                <span aria-hidden="true">&middot;</span>
+                <span>Actualizado el {formattedUpdated}</span>
+              </>
+            )}
           </div>
         </header>
-        
-        <div class="prose prose-cyber prose-invert max-w-none">
+
+        {heroImage && (
+          <div class="my-10 overflow-hidden rounded-lg border border-line">
+            <img src={heroImage} alt={title} class="h-auto w-full" />
+          </div>
+        )}
+
+        <div class="prose mt-10 max-w-[68ch]">
           <slot />
         </div>
-        
-        <footer class="mt-12 pt-8 border-t border-cyber-border">
-          <div class="flex flex-wrap gap-2">
-            {tags.map(tag => (
-              <a href={`/tags/${tag}`} class="cyber-tag">#{tag}</a>
-            ))}
-          </div>
-        </footer>
+
+        <CodeEnhancer />
+
+        {tags.length > 0 && (
+          <footer class="mt-14 border-t border-line pt-6">
+            <ul class="flex flex-wrap gap-x-4 gap-y-2 font-mono text-[12px]">
+              {tags.map(tag => (
+                <li>
+                  <a href={`/tags/${tag}`} class="text-muted underline-offset-4 transition-colors hover:text-ink hover:underline">
+                    #{tag}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </footer>
+        )}
       </article>
     </main>
     <Footer />

@@ -1,0 +1,75 @@
+---
+---
+
+<button
+  id="motion-toggle"
+  type="button"
+  class="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-muted transition-colors hover:text-ink"
+  aria-label="Desactivar animaciones (movimiento: activo)"
+  aria-pressed="true"
+  title="Desactivar animaciones"
+>
+  <span data-motion-dot class="h-1 w-1 rounded-full bg-accent" aria-hidden="true"></span>
+  <span data-motion-label>
+    <span data-motion-on-label>movimiento: activo</span>
+    <span data-motion-off-label>movimiento: inactivo</span>
+  </span>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const button = document.getElementById('motion-toggle');
+  const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function storedPreference(): string | null {
+    try {
+      return localStorage.getItem('motion');
+    } catch {
+      return null;
+    }
+  }
+
+  function animationsEnabled(): boolean {
+    const stored = storedPreference();
+    if (stored === 'on') return true;
+    if (stored === 'off') return false;
+    return !media.matches;
+  }
+
+  function applyPreference(enabled: boolean) {
+    root.classList.toggle('motion-on', enabled);
+    root.classList.toggle('motion-off', !enabled);
+  }
+
+  function sync() {
+    const enabled = animationsEnabled();
+    button?.setAttribute('aria-pressed', String(enabled));
+    button?.setAttribute(
+      'aria-label',
+      enabled ? 'Desactivar animaciones (movimiento: activo)' : 'Activar animaciones (movimiento: inactivo)'
+    );
+    button?.setAttribute('title', enabled ? 'Desactivar animaciones' : 'Activar animaciones');
+  }
+
+  function syncWithSystem() {
+    if (storedPreference() === null) applyPreference(!media.matches);
+    sync();
+  }
+
+  sync();
+
+  button?.addEventListener('click', () => {
+    const next = !animationsEnabled();
+
+    try {
+      localStorage.setItem('motion', next ? 'on' : 'off');
+    } catch {
+      // The class still applies for this visit when storage is unavailable.
+    }
+
+    applyPreference(next);
+    sync();
+  });
+
+  media.addEventListener('change', syncWithSystem);
+</script>

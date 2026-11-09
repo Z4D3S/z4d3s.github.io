@@ -1,56 +1,8 @@
 ---
-interface Props {
-  title: string;
-  description: string;
-  pubDate: Date;
-  href: string;
-  tags: string[];
-  difficulty?: 'easy' | 'medium' | 'hard' | 'info';
-}
-
-const { title, description, pubDate, href, tags, difficulty = 'medium' } = Astro.props;
-
-const formattedDate = pubDate.toLocaleDateString('es-ES', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric'
-});
-
-const difficultyLabels = { easy: 'Easy', medium: 'Medium', hard: 'Hard', info: 'Info' };
-const difficultyColors = { 
-  easy: 'bg-green-500/20 border-green-500/50 text-green-400', 
-  medium: 'bg-yellow-500/20 border-yellow-500/50 text-yellow-400',
-  hard: 'bg-red-500/20 border-red-500/50 text-red-400',
-  info: 'bg-blue-500/20 border-blue-500/50 text-blue-400'
+interface Props { title: string; description: string; pubDate: Date; href: string; tags: string[]; difficulty?: 'easy' | 'medium' | 'hard' | 'info'; image?: string; readingTime?: number;
+} const { title, description, pubDate, href, tags, difficulty = 'medium', image, readingTime } = Astro.props; const formattedDate = pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric'
+}); const difficultyLabels = { easy: 'Fácil', medium: 'Medio', hard: 'Difícil', info: 'Info' };
+const difficultyColors = { easy: 'bg-green-500/10 border-green-500/30 text-green-400', medium: 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400', hard: 'bg-red-500/10 border-red-500/30 text-red-400', info: 'bg-blue-500/10 border-blue-500/30 text-blue-400'
 };
----
-
-<article class="cyber-card group">
-  <div class="flex items-center gap-2 mb-3">
-    <span class={`px-2 py-0.5 rounded text-xs font-mono uppercase border ${difficultyColors[difficulty]}`}>
-      {difficultyLabels[difficulty]}
-    </span>
-    <div class="flex flex-wrap gap-2">
-      {tags.slice(0, 3).map(tag => (
-        <span class="cyber-tag">{tag}</span>
-      ))}
-    </div>
-  </div>
-  
-  <a href={href}>
-    <h3 class="text-xl font-bold text-white group-hover:text-cyber-purple transition-colors mb-2">
-      {title}
-    </h3>
-  </a>
-  
-  <p class="text-gray-400 text-sm mb-4 line-clamp-2">
-    {description}
-  </p>
-  
-  <div class="flex items-center justify-between text-xs text-gray-500">
-    <time datetime={pubDate.toISOString()}>{formattedDate}</time>
-    <a href={href} class="text-cyber-purple hover:underline">
-      Leer más →
-    </a>
-  </div>
+--- <article class="cyber-card group overflow-hidden"> {image && ( <a href={href} class="block -m-6 mb-4"> <img src={image} alt={title} class="w-full h-48 object-cover" loading="lazy" /> </a> )} <div class="flex items-center gap-2 mb-3"> <span class={`px-2 py-0.5 rounded-full text-xs font-medium uppercase border ${difficultyColors[difficulty]}`}> {difficultyLabels[difficulty]} </span> <div class="flex flex-wrap gap-2"> {tags.slice(0, 3).map(tag => ( <span class="cyber-tag">{tag}</span> ))} </div> </div> <a href={href}> <h3 class="text-xl font-serif font-semibold text-gray-900 group-hover:text-gray-900 :text-white transition-colors mb-2 leading-snug"> {title} </h3> </a> <p class="text-gray-400 text-sm mb-4 line-clamp-2"> {description} </p> <div class="flex items-center justify-between text-xs text-gray-400 "> <div class="flex items-center gap-2"> <time datetime={pubDate.toISOString()}>{formattedDate}</time> {readingTime && <span>· {readingTime} min de lectura</span>} </div> <a href={href} class="text-gray-900 hover:underline"> Leer más </a> </div>
 </article>

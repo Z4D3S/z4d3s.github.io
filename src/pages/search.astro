@@ -1,181 +1,98 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
-
-const posts = (await getCollection('blog'))
-  .filter(post => !post.id.startsWith('.obsidian') && !post.id.startsWith('templates/') && !post.id.startsWith('Templates/') && post.id.endsWith('.md'))
-  .filter(post => post.data.draft !== true);
-
-const difficultyLabels = { easy: 'Easy', medium: 'Medium', hard: 'Hard', info: 'Info' };
-const difficultyColors = { 
-  easy: 'bg-green-500/20 border-green-500/50 text-green-400 hover:bg-green-500/30', 
-  medium: 'bg-yellow-500/20 border-yellow-500/50 text-yellow-400 hover:bg-yellow-500/30',
-  hard: 'bg-red-500/20 border-red-500/50 text-red-400 hover:bg-red-500/30',
-  info: 'bg-blue-500/20 border-blue-500/50 text-blue-400 hover:bg-blue-500/30'
-};
 ---
 
-<BaseLayout title="Buscar - NightOps" description="Buscar artículos">
-  <section class="max-w-4xl mx-auto px-4 py-12">
-    <h1 class="cyber-heading">Buscar</h1>
-    
-    <div class="mb-6">
-      <input 
-        type="text" 
-        id="search-input"
-        placeholder="Buscar artículos..."
-        class="search-input w-full px-4 py-3 bg-cyber-gray border border-cyber-border rounded-lg focus:outline-none focus:border-cyber-green transition-colors font-mono"
-      />
-    </div>
-    
-    <!-- Difficulty Filter -->
-    <div class="flex flex-wrap gap-2 mb-8" id="difficulty-filters">
-      <button class="filter-btn active px-3 py-1 rounded text-xs font-mono uppercase border border-cyber-accent bg-cyber-accent/20 text-cyber-accent" data-difficulty="all">All</button>
-      {Object.entries(difficultyLabels).map(([key, label]) => (
-        <button class={`filter-btn px-3 py-1 rounded text-xs font-mono uppercase border ${difficultyColors[key as keyof typeof difficultyColors]}`} data-difficulty={key}>{label}</button>
-      ))}
-    </div>
-    
-    <div id="search-results" class="grid md:grid-cols-2 gap-6">
-      {posts.map(post => (
-        <article class="cyber-card group">
-          <div class="flex flex-wrap gap-2 mb-3">
-            <span class={`px-2 py-0.5 rounded text-xs font-mono uppercase border ${difficultyColors[post.data.difficulty || 'medium']}`}>{difficultyLabels[post.data.difficulty || 'medium']}</span>
-            {post.data.tags.slice(0, 3).map(tag => (
-              <span class="cyber-tag">{tag}</span>
-            ))}
-          </div>
-          <a href={`/blog/${post.slug}`}>
-            <h3 class="post-title text-xl font-bold group-hover:text-cyber-purple transition-colors mb-2">
-              {post.data.title}
-            </h3>
-          </a>
-          <p class="post-desc text-sm mb-4 line-clamp-2">
-            {post.data.description}
-          </p>
-          <div class="post-meta flex items-center justify-between text-xs">
-            <time>{new Date(post.data.pubDate).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
-            <a href={`/blog/${post.slug}`} class="text-cyber-green hover:underline">
-              Leer más →
-            </a>
-          </div>
-        </article>
-      ))}
-    </div>
+<BaseLayout title="Buscar - z4des" description="Buscar artículos">
+  <section class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <header>
+      <p class="font-mono text-xs text-muted"><span class="text-accent">$</span> grep -ri</p>
+      <h1 class="mt-2 text-4xl font-semibold text-ink">Buscar</h1>
+      <p class="mt-2 text-muted">Busca artículos por título, descripción o etiqueta.</p>
+    </header>
+
+    <input
+      id="search-input"
+      type="search"
+      placeholder="Buscar artículos..."
+      autocomplete="off"
+      class="mt-8 w-full border-b border-line bg-transparent py-3 text-lg text-ink placeholder-muted/60 focus:border-ink focus:outline-none"
+    />
+
+    <p id="search-hint" class="mt-6 text-sm text-muted">Escribe al menos 2 caracteres.</p>
+    <div id="search-results" class="mt-2 divide-y divide-line"></div>
   </section>
 </BaseLayout>
 
 <script>
-  const searchInput = document.getElementById('search-input');
-  const searchResults = document.getElementById('search-results');
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  
-  let allPosts = [];
-  let currentDifficulty = 'all';
-  
-  const difficultyLabels = { easy: 'Easy', medium: 'Medium', hard: 'Hard', info: 'Info' };
-  const difficultyColors = { 
-    easy: 'bg-green-500/20 border-green-500/50 text-green-400', 
-    medium: 'bg-yellow-500/20 border-yellow-500/50 text-yellow-400',
-    hard: 'bg-red-500/20 border-red-500/50 text-red-400',
-    info: 'bg-blue-500/20 border-blue-500/50 text-blue-400'
+  const input = document.getElementById('search-input') as HTMLInputElement | null;
+  const results = document.getElementById('search-results');
+  const hint = document.getElementById('search-hint');
+
+  type Post = {
+    slug: string;
+    data: {
+      title: string;
+      description: string;
+      pubDate: string;
+      tags: string[];
+    };
   };
-  
-  async function loadPosts() {
-    try {
-      const response = await fetch('/search.json');
-      allPosts = await response.json();
-    } catch (e) {
-      console.log('Search data not available');
-    }
+
+  let posts: Post[] = [];
+
+  fetch('/search.json')
+    .then(response => response.json())
+    .then((data: Post[]) => {
+      posts = data;
+    })
+    .catch(() => {});
+
+  function makeRow(post: Post) {
+    const link = document.createElement('a');
+    link.href = `/blog/${post.slug}`;
+    link.className = 'group block py-4';
+
+    const title = document.createElement('span');
+    title.className = 'block text-ink underline-offset-4 group-hover:underline';
+    title.textContent = post.data.title;
+
+    const description = document.createElement('span');
+    description.className = 'mt-1 block text-sm text-muted';
+    description.textContent = post.data.description;
+
+    link.append(title, description);
+    return link;
   }
-  
-  function filterPosts() {
-    const query = searchInput ? searchInput.value.toLowerCase() : '';
-    let results = allPosts;
-    
-    if (currentDifficulty !== 'all') {
-      results = results.filter(post => (post.data.difficulty || 'medium') === currentDifficulty);
-    }
-    
-    if (query.length >= 2) {
-      results = results.filter(post => 
-        post.data.title.toLowerCase().includes(query) ||
-        post.data.description.toLowerCase().includes(query) ||
-        post.data.tags.some(tag => tag.toLowerCase().includes(query))
-      );
-    }
-    
-    renderResults(results);
-  }
-  
-  function renderResults(results) {
-    if (!searchResults) return;
-    
-    if (results.length === 0) {
-      searchResults.innerHTML = '<p class="text-gray-400 col-span-2 text-center py-8">No se encontraron resultados</p>';
+
+  function render(query: string) {
+    if (!input || !results) return;
+
+    results.replaceChildren();
+    const q = query.trim().toLowerCase();
+
+    if (q.length < 2) {
+      if (hint) hint.hidden = false;
       return;
     }
-    
-    searchResults.innerHTML = results.map(post => `
-      <article class="cyber-card group">
-        <div class="flex flex-wrap gap-2 mb-3">
-          <span class="px-2 py-0.5 rounded text-xs font-mono uppercase border ${difficultyColors[post.data.difficulty || 'medium']}">${difficultyLabels[post.data.difficulty || 'medium']}</span>
-          ${post.data.tags.slice(0, 3).map(tag => `<span class="cyber-tag">${tag}</span>`).join('')}
-        </div>
-        <a href="/blog/${post.slug}">
-          <h3 class="text-xl font-bold text-white group-hover:text-cyber-purple transition-colors mb-2">
-            ${post.data.title}
-          </h3>
-        </a>
-        <p class="text-gray-400 text-sm mb-4 line-clamp-2">
-          ${post.data.description}
-        </p>
-        <div class="flex items-center justify-between text-xs text-gray-500">
-          <time>${new Date(post.data.pubDate).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
-          <a href="/blog/${post.slug}" class="text-cyber-green hover:underline">
-            Leer más →
-          </a>
-        </div>
-      </article>
-    `).join('');
-  }
-  
-  if (searchInput) {
-    searchInput.addEventListener('input', filterPosts);
-  }
-  
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterButtons.forEach(b => {
-        b.classList.remove('active', 'border-cyber-accent', 'bg-cyber-accent/20', 'text-cyber-accent');
-        b.classList.add('border-cyber-border');
-      });
-      btn.classList.add('active', 'border-cyber-accent', 'bg-cyber-accent/20', 'text-cyber-accent');
-      btn.classList.remove('border-cyber-border');
-      
-      currentDifficulty = btn.getAttribute('data-difficulty');
-      filterPosts();
-    });
-  });
-  
-  loadPosts();
-</script>
 
-<style is:global>
-  html.light .search-input {
-    @apply bg-white border-gray-300 text-gray-800 placeholder-gray-400;
+    if (hint) hint.hidden = true;
+
+    const matches = posts.filter(post =>
+      post.data.title.toLowerCase().includes(q) ||
+      post.data.description.toLowerCase().includes(q) ||
+      post.data.tags.some(tag => tag.toLowerCase().includes(q))
+    );
+
+    if (matches.length === 0) {
+      const empty = document.createElement('p');
+      empty.className = 'py-4 text-sm text-muted';
+      empty.textContent = 'No se encontraron resultados.';
+      results.append(empty);
+      return;
+    }
+
+    matches.forEach(post => results.append(makeRow(post)));
   }
-  
-  html.light .post-title {
-    @apply text-gray-900;
-  }
-  
-  html.light .post-desc {
-    @apply text-gray-600;
-  }
-  
-  html.light .post-meta {
-    @apply text-gray-500;
-  }
-</style>
+
+  input?.addEventListener('input', () => render(input.value));
+</script>

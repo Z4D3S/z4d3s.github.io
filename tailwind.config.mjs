@@ -6,8 +6,20 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
-      colors: theme.colors,
-      fontFamily: theme.fonts,
+      colors: {
+        paper: 'rgb(var(--paper) / <alpha-value>)',
+        surface: 'rgb(var(--surface) / <alpha-value>)',
+        ink: 'rgb(var(--ink) / <alpha-value>)',
+        muted: 'rgb(var(--muted) / <alpha-value>)',
+        line: 'rgb(var(--line) / <alpha-value>)',
+        accent: 'rgb(var(--accent) / <alpha-value>)',
+        ...theme.colors,
+      },
+      fontFamily: {
+        serif: ['Newsreader', 'Georgia', 'Times New Roman', 'serif'],
+        sans: ['IBM Plex Sans', 'system-ui', '-apple-system', 'sans-serif'],
+        mono: ['IBM Plex Mono', 'Fira Code', 'Consolas', 'monospace'],
+      },
       typography: (theme) => ({
         cyber: {
           css: {

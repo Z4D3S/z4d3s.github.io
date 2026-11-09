@@ -1,0 +1,29 @@
+---
+interface Props {
+  posts: any[];
+}
+
+const { posts } = Astro.props;
+---
+
+<ul class="divide-y divide-line">
+  {posts.map((post: any) => {
+    const p = post.data ? post : { data: post };
+    const d = p.data;
+    const slug = p.slug || post.slug;
+    const date = new Date(d.pubDate).toISOString().slice(0, 10);
+    return (
+      <li class="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:gap-6">
+        <time datetime={date} class="shrink-0 font-mono text-[12px] tracking-wide text-muted sm:w-24">
+          {date}
+        </time>
+        <a
+          href={`/blog/${slug}`}
+          class="text-ink underline-offset-4 hover:underline decoration-muted/40 hover:decoration-ink"
+        >
+          {d.title}
+        </a>
+      </li>
+    );
+  })}
+</ul>

@@ -10,19 +10,21 @@ const blog = defineCollection({
     heroImage: z.string().optional(),
     tags: z.array(z.string()),
     category: z.enum([
-      'forensics', 
-      'incident-response', 
-      'threat-hunting', 
-      'malware-analysis', 
-      'log-analysis',
-      'defense', 
-      'tools', 
-      'tutorials'
+      'reconnaissance',
+      'web-exploitation',
+      'privilege-escalation',
+      'red-team-ops',
+      'malware',
+      'evasion',
+      'forensics',
+      'tools',
+      'tutorials',
     ]),
     difficulty: z.enum(['easy', 'medium', 'hard', 'info']).default('medium'),
     draft: z.boolean().default(false),
-    author: z.string().default('NightOps Team')
-  })
+    author: z.string().default('z4des'),
+    event: z.string().optional(),
+  }),
 });
 
 export const collections = { blog };

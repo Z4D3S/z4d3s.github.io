@@ -1,0 +1,42 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { siteConfig } from '@/config/theme';
+---
+
+<BaseLayout title="Sobre mí - z4des" description="Sobre z4des">
+  <section class="mx-auto max-w-3xl px-6 py-16 sm:py-20">
+    <p class="font-mono text-xs text-muted"><span class="text-accent">$</span> cat sobre-mi.md</p>
+    <h1 class="mt-2 text-4xl font-semibold text-ink">Sobre mí</h1>
+
+    <div class="prose mt-8 max-w-[68ch]">
+      <p>
+        Soy <strong>{siteConfig.author}</strong>. Este es mi blog personal sobre ciberseguridad, con foco en
+        red team, pentesting e investigación ofensiva.
+      </p>
+      <p>
+        Aquí publico análisis, notas técnicas y experimentos sobre explotación web, escalada de privilegios,
+        evasión y análisis forense. La idea es documentar lo que voy aprendiendo y compartir el proceso,
+        no solo el resultado.
+      </p>
+      <p>
+        Todo el contenido es educativo y está orientado a mejorar la seguridad de los sistemas. Las opiniones
+        son propias y no representan a ninguna organización.
+      </p>
+    </div>
+
+    <div class="mt-12 border-t border-line pt-8">
+      <h2 class="font-mono text-[11px] font-normal uppercase tracking-[0.2em] text-muted">Enfoque</h2>
+      <ul class="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted">
+        <li>Red team</li>
+        <li aria-hidden="true" class="text-muted/40">&middot;</li>
+        <li>Explotación web</li>
+        <li aria-hidden="true" class="text-muted/40">&middot;</li>
+        <li>Escalada de privilegios</li>
+        <li aria-hidden="true" class="text-muted/40">&middot;</li>
+        <li>Evasión</li>
+        <li aria-hidden="true" class="text-muted/40">&middot;</li>
+        <li>Análisis forense / CTF</li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

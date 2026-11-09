@@ -1,16 +1,16 @@
 ---
 title: Guía de Detección de SQL Injection en Logs
-description: Aprende a identificar intentos de SQL injection en los logs de tu aplicación web. Estrategias de detección defensiva para Blue Team.
+description: Aprende a explotar SQL injection en aplicaciones web y a entender cómo se detecta. Enfoque ofensivo.
 pubDate: 2026-01-15
 heroImage: /images/sqli-detection.avif
 tags:
   - sqli
-  - detection
-  - log-analysis
+  - exploitation
+  - web
   - waf
-  - defense
-category: log-analysis
-author: NightOps Team
+  - red-team
+category: web-exploitation
+author: z4des
 difficulty: info
 ---
 
@@ -20,7 +20,7 @@ SQL Injection es una de las vulnerabilidades más críticas en aplicaciones web.
 
 ## ¿Por qué detección?
 
-El enfoque Blue Team se centra en detectar amenazas antes de que causen daño. Conocer cómo funcionan los ataques nos permite:
+El enfoque ofensivo se centra en explotar vulnerabilidades para mejorar la seguridad. Conocer cómo funcionan las defensas nos permite:
 
 1. Identificar actividad maliciosa en etapas tempranas
 2. Crear reglas de detección efectivas
@@ -105,7 +105,7 @@ Si detectas un intento de SQLi:
 
 La detección temprana de SQL Injection es crucial para la defensa. Implementa logging detallado, configura alertas y mantén actualizado tu WAF.
 
-> "La mejor defensa es un buen offense... de detección." - Blue Team Proverb
+> "Know the defense to break it." - Red Team Proverb
 
 ## Referencias
 

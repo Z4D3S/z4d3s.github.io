@@ -1,48 +1,141 @@
-<button id="theme-toggle" class="p-2 rounded-md hover:bg-cyber-gray transition-colors" aria-label="Toggle theme">
-  <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+---
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  class="text-muted transition-colors hover:text-ink"
+  aria-label="Cambiar a tema oscuro"
+  aria-pressed="false"
+>
+  <!-- Moon: shown in light mode -->
+  <svg
+    class="h-4 w-4 dark:hidden"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    stroke-width="1.8"
+    aria-hidden="true"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M20.354 15.354A9 9 0 0 1 8.646 3.646 9.003 9.003 0 0 0 12 21a9.003 9.003 0 0 0 8.354-5.646Z"
+    />
   </svg>
-  <svg id="moon-icon" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+
+  <!-- Sun: shown in dark mode -->
+  <svg
+    class="hidden h-4 w-4 dark:block"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    stroke-width="1.8"
+    aria-hidden="true"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M12 3v1m0 16v1m9-9h1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
+    />
   </svg>
 </button>
 
 <script>
-  const themeToggle = document.getElementById('theme-toggle');
-  const sunIcon = document.getElementById('sun-icon');
-  const moonIcon = document.getElementById('moon-icon');
-  
-  function updateIcons(isDark: boolean) {
-    if (sunIcon && moonIcon) {
-      sunIcon.classList.toggle('hidden', !isDark);
-      moonIcon.classList.toggle('hidden', isDark);
-    }
+  const root = document.documentElement;
+  const button = document.getElementById('theme-toggle');
+  let transitioning = false;
+  let activeShell: HTMLElement | null = null;
+
+  function syncToggle() {
+    const isDark = root.classList.contains('dark');
+    button?.setAttribute('aria-pressed', String(isDark));
+    button?.setAttribute('aria-label', isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro');
   }
-  
-  function getThemePreference() {
-    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-      return localStorage.getItem('theme');
+
+  function applyTheme(isDark: boolean) {
+    root.classList.toggle('dark', isDark);
+    try {
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    } catch {
+      // Storage can be unavailable in private contexts; the theme still applies.
     }
-    return 'dark';
+    syncToggle();
   }
-  
-  function setTheme(theme: string) {
-    if (theme === 'light') {
-      document.documentElement.classList.add('light');
-      document.documentElement.classList.remove('dark');
-    } else {
-      document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
+
+  function motionDisabled() {
+    return (
+      root.classList.contains('motion-off') ||
+      (!root.classList.contains('motion-on') &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+    );
+  }
+
+  syncToggle();
+
+  button?.addEventListener('click', () => {
+    if (transitioning) return;
+
+    const isDark = !root.classList.contains('dark');
+
+    if (motionDisabled()) {
+      applyTheme(isDark);
+      return;
     }
-    localStorage.setItem('theme', theme);
-    updateIcons(theme === 'dark');
-  }
-  
-  const currentTheme = getThemePreference();
-  setTheme(currentTheme);
-  
-  themeToggle?.addEventListener('click', () => {
-    const isLight = document.documentElement.classList.contains('light');
-    setTheme(isLight ? 'dark' : 'light');
+
+    transitioning = true;
+
+    // The theme changes under the shell, so the reveal is already the new page.
+    applyTheme(isDark);
+
+    const shell = document.createElement('div');
+    shell.className = 'theme-shell';
+    shell.setAttribute('aria-hidden', 'true');
+    shell.innerHTML = `
+      <div class="theme-shell__bar">
+        <span>z4des@blog</span>
+        <span>${isDark ? 'sesión nocturna' : 'sesión diurna'}</span>
+      </div>
+      <div class="theme-shell__body">
+        <p class="theme-shell__prompt">
+          <span class="theme-shell__user">z4des@blog</span><span class="theme-shell__path">:~$</span>
+          <span data-cmd></span><span class="theme-shell__caret">_</span>
+        </p>
+        <p class="theme-shell__out" data-delay="1">
+          <span class="theme-shell__ok">[ ok ]</span> ${isDark ? 'paleta oscura' : 'paleta clara'} cargada
+        </p>
+        <p class="theme-shell__out" data-delay="2">
+          <span class="theme-shell__ok">[ ok ]</span> variables de contraste reconstruidas
+        </p>
+      </div>
+    `;
+    activeShell = shell;
+    document.body.append(shell);
+
+    const command = `theme --${isDark ? 'dark' : 'light'}`;
+    const commandEl = shell.querySelector<HTMLElement>('[data-cmd]');
+    let index = 0;
+
+    const typer = window.setInterval(() => {
+      index += 1;
+      if (commandEl) commandEl.textContent = command.slice(0, index);
+      if (index >= command.length) window.clearInterval(typer);
+    }, 20);
+
+    const cleanup = () => {
+      if (activeShell !== shell) return;
+      shell.remove();
+      activeShell = null;
+      transitioning = false;
+    };
+
+    const close = () => {
+      shell.classList.add('is-closing');
+      shell.addEventListener('transitionend', cleanup, { once: true });
+      // Fallback for hidden windows, where CSS transitions may not advance.
+      window.setTimeout(cleanup, 600);
+    };
+
+    window.setTimeout(close, 850);
   });
 </script>

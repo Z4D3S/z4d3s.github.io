@@ -1,6 +1,7 @@
 ---
 author: x0k
 category: forensics
+event: PicoCTF
 description: Análisis forense de imagen PNG sin metadatos aparentes
   donde se descubre información oculta mediante esteganografía LSB
   usando zsteg.

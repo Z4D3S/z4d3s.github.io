@@ -1,6 +1,7 @@
 ---
 author: x0k
 category: forensics
+event: PicoCTF
 description: Proceso de análisis forense sobre una imagen de disco .dd, identificación de particiones y extracción de evidencia utilizando strings y grep.
 heroImage: /images/forensics-dd-analysis.avif
 pubDate: 2026-02-21
