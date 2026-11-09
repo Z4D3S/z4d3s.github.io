@@ -70,3 +70,39 @@ const ogImage = image ? new URL(image, Astro.url) : undefined;
 {ogImage && <meta property="twitter:image" content={ogImage} />}
 
 <link rel="alternate" type="application/rss+xml" title={`${siteConfig.title} RSS`} href="/rss.xml" />
+
+<script is:inline>
+  (function () {
+    function buildAscii() {
+      const chars = ' .:-=+*#%@';
+      const cols = 140;
+      const rows = 80;
+      let text = '';
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          const v = (Math.sin(x * 0.07 + y * 0.05) + Math.cos(x * 0.03 - y * 0.08) + 2) / 4;
+          text += chars[Math.floor(v * (chars.length - 1))];
+        }
+        text += '\n';
+      }
+      return text;
+    }
+
+    function inject() {
+      document.querySelectorAll('main').forEach((main) => {
+        if (main.querySelector('.ascii-bg')) return;
+        const bg = document.createElement('div');
+        bg.className = 'ascii-bg';
+        bg.setAttribute('aria-hidden', 'true');
+        bg.textContent = buildAscii();
+        main.insertBefore(bg, main.firstChild);
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', inject);
+    } else {
+      inject();
+    }
+  })();
+</script>

@@ -623,3 +623,39 @@ html.motion-off .fade-in {
   from { transform: scale(1); opacity: 1; }
   to { transform: scale(0.96); opacity: 0; }
 }
+
+/* Animated ASCII background (low-VRAM, CSS-transform driven) */
+main {
+  position: relative;
+}
+
+.ascii-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  font-family: 'IBM Plex Mono', 'Fira Code', Consolas, monospace;
+  font-size: 10px;
+  line-height: 1;
+  white-space: pre;
+  color: rgb(var(--muted) / 0.18);
+  opacity: 0.5;
+  animation: ascii-drift 28s linear infinite;
+}
+
+html.motion-off .ascii-bg {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not(.motion-on) .ascii-bg {
+    display: none;
+  }
+}
+
+@keyframes ascii-drift {
+  from { transform: translate(0, 0); }
+  to { transform: translate(-48px, -24px); }
+}
