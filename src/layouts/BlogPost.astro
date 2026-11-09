@@ -79,28 +79,24 @@ const formattedUpdated = updatedDate?.toLocaleDateString('es-ES', { year: 'numer
 
     if (!motionDisabled()) {
       const shell = document.createElement('div');
-      shell.className = 'post-shell';
+      shell.className = 'theme-shell';
       shell.setAttribute('aria-hidden', 'true');
       shell.innerHTML = `
-        <div class="post-shell__window">
-          <div class="post-shell__titlebar">
-            <span class="post-shell__dot post-shell__dot--red"></span>
-            <span class="post-shell__dot post-shell__dot--yellow"></span>
-            <span class="post-shell__dot post-shell__dot--green"></span>
-            <span class="post-shell__title">bash</span>
-          </div>
-          <div class="post-shell__body">
-            <p class="post-shell__prompt">
-              <span class="post-shell__user">z4des@blog</span><span class="post-shell__path">:~$</span>
-              <span data-cmd></span><span class="post-shell__caret">_</span>
-            </p>
-            <p class="post-shell__out" data-delay="1">
-              <span class="post-shell__ok">[ ok ]</span> artículo cargado
-            </p>
-            <p class="post-shell__out" data-delay="2">
-              <span class="post-shell__ok">[ ok ]</span> markdown renderizado
-            </p>
-          </div>
+        <div class="theme-shell__bar">
+          <span>z4des@blog</span>
+          <span>article view</span>
+        </div>
+        <div class="theme-shell__body">
+          <p class="theme-shell__prompt">
+            <span class="theme-shell__user">z4des@blog</span><span class="theme-shell__path">:~$</span>
+            <span data-cmd></span><span class="theme-shell__caret">_</span>
+          </p>
+          <p class="theme-shell__out" data-delay="1">
+            <span class="theme-shell__ok">[ ok ]</span> artículo cargado
+          </p>
+          <p class="theme-shell__out" data-delay="2">
+            <span class="theme-shell__ok">[ ok ]</span> markdown renderizado
+          </p>
         </div>
       `;
       document.body.append(shell);
@@ -127,7 +123,7 @@ const formattedUpdated = updatedDate?.toLocaleDateString('es-ES', { year: 'numer
         window.setTimeout(cleanup, 600);
       };
 
-      window.setTimeout(close, 2000);
+      window.setTimeout(close, 700);
     }
   </script>
 

@@ -1,5 +1,4 @@
 ---
-import MotionToggle from './MotionToggle.astro';
 import { siteConfig } from '../config/theme';
 
 const year = new Date().getFullYear();
@@ -9,8 +8,6 @@ const year = new Date().getFullYear();
   <div class="mx-auto flex max-w-3xl flex-col gap-3 px-6 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
     <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
       <p>&copy; {year} {siteConfig.title}</p>
-      <span class="text-muted/40" aria-hidden="true">/</span>
-      <MotionToggle />
     </div>
 
     <div class="flex flex-wrap items-center gap-x-6 gap-y-2">

@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import ThemeToggle from './ThemeToggle.astro';
+import MotionToggle from './MotionToggle.astro';
 import { siteConfig } from '../config/theme';
 
 const navItems = [
@@ -37,6 +38,8 @@ const path = Astro.url.pathname;
       ))}
 
       <ThemeToggle />
+
+      <MotionToggle />
 
       <a
         href="/search"
