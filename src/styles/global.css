@@ -360,7 +360,6 @@
   isolation: isolate;
   flex-direction: column;
   align-items: flex-start;
-  gap: 9px;
   pointer-events: none;
   user-select: none;
   font-family: 'IBM Plex Mono', 'Fira Code', Consolas, monospace;
@@ -379,18 +378,6 @@
   .shell-fox {
     display: flex;
   }
-}
-
-.shell-fox__label {
-  padding-left: 8px;
-  border-left: 1px solid rgb(var(--accent) / 0.65);
-  font-size: 9px;
-  line-height: 1.4;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgb(var(--muted));
-  opacity: 0;
-  animation: shell-fox-label-in 300ms ease-out 120ms forwards;
 }
 
 .shell-fox__art {
@@ -436,22 +423,6 @@
 .shell-fox--boot .shell-fox__line {
   animation-duration: 240ms;
   animation-delay: calc(140ms + var(--i) * 6ms);
-}
-
-.shell-fox--boot .shell-fox__label {
-  animation-delay: 380ms;
-}
-
-@keyframes shell-fox-label-in {
-  from {
-    opacity: 0;
-    transform: translateX(-4px);
-  }
-
-  to {
-    opacity: 1;
-    transform: none;
-  }
 }
 
 @keyframes shell-fox-line-in {
@@ -535,7 +506,6 @@
 
 html.motion-off .theme-shell--boot,
 html.motion-off .shell-fox,
-html.motion-off .shell-fox__label,
 html.motion-off .shell-fox__art,
 html.motion-off .shell-fox__line {
   animation: none;
@@ -546,7 +516,6 @@ html.motion-off .shell-fox__line {
 @media (prefers-reduced-motion: reduce) {
   html:not(.motion-on) .theme-shell--boot,
   html:not(.motion-on) .shell-fox,
-  html:not(.motion-on) .shell-fox__label,
   html:not(.motion-on) .shell-fox__art,
   html:not(.motion-on) .shell-fox__line {
     animation: none;

@@ -25,14 +25,11 @@ function foxMarkup(): string {
   ).join('');
 }
 
-export function appendShellFox(shell: HTMLElement, variant: FoxVariant, label = 'fox.ascii') {
+export function appendShellFox(shell: HTMLElement, variant: FoxVariant) {
   const wrap = document.createElement('div');
   wrap.className = `shell-fox shell-fox--${variant}`;
   wrap.setAttribute('aria-hidden', 'true');
-  wrap.innerHTML = `
-    <span class="shell-fox__label">${label}</span>
-    <pre class="shell-fox__art">${foxMarkup()}</pre>
-  `;
+  wrap.innerHTML = `<pre class="shell-fox__art">${foxMarkup()}</pre>`;
   shell.append(wrap);
 }
 
@@ -107,7 +104,7 @@ export function bootFox(): boolean {
     </div>
   `;
 
-  appendShellFox(shell, 'boot', 'fox.init');
+  appendShellFox(shell, 'boot');
   document.body.append(shell);
 
   typeCommand(shell, './fox --init', 26);
