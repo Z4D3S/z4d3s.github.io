@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="XSS: Cross-Site Scripting">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2a2724" stroke-width="1" />
+    </pattern>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#db7058" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#db7058" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#0b0d0f" />
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.35" />
+  <circle cx="980" cy="120" r="260" fill="url(#glow)" />
+
+  <text x="72" y="92" font-family="'IBM Plex Mono', Consolas, monospace" font-size="17" fill="#a6a094" letter-spacing="4">z4d3s // WEB EXPLOITATION</text>
+
+  <text x="64" y="284" font-family="'Newsreader', Georgia, serif" font-size="196" font-weight="600" fill="#db7058" letter-spacing="-6">XSS</text>
+  <text x="72" y="344" font-family="'IBM Plex Mono', Consolas, monospace" font-size="28" fill="#ebe7de">Cross-Site Scripting</text>
+  <text x="72" y="390" font-family="'IBM Plex Mono', Consolas, monospace" font-size="16" fill="#a6a094">Qué es, cómo funciona y cómo prevenirlo</text>
+
+  <line x1="72" y1="438" x2="520" y2="438" stroke="#393630" stroke-width="1" />
+
+  <text x="72" y="484" font-family="'IBM Plex Mono', Consolas, monospace" font-size="13" fill="#a6a094" letter-spacing="3">GUÍA PRÁCTICA</text>
+  <text x="72" y="514" font-family="'IBM Plex Mono', Consolas, monospace" font-size="13" fill="#a6a094" letter-spacing="2">TIPOS · IMPACTO · DEFENSA</text>
+  <text x="72" y="580" font-family="'IBM Plex Mono', Consolas, monospace" font-size="14" fill="#db7058">z4d3s.github.io</text>
+
+  <rect x="620" y="96" width="508" height="470" rx="14" fill="#151412" stroke="#393630" stroke-width="1" />
+  <circle cx="646" cy="124" r="5" fill="#db7058" />
+  <circle cx="664" cy="124" r="5" fill="#6f6a60" />
+  <circle cx="682" cy="124" r="5" fill="#393630" />
+  <text x="710" y="129" font-family="'IBM Plex Mono', Consolas, monospace" font-size="11" fill="#a6a094">lab.z4d3s.local</text>
+
+  <rect x="636" y="150" width="476" height="32" rx="6" fill="#0b0d0f" stroke="#393630" stroke-width="1" />
+  <text x="648" y="171" font-family="'IBM Plex Mono', Consolas, monospace" font-size="11" fill="#a6a094">https://lab.z4d3s.local/search?q=</text>
+
+  <rect x="636" y="196" width="476" height="54" rx="8" fill="#0b0d0f" stroke="#db7058" stroke-width="1" />
+  <text x="648" y="228" font-family="'IBM Plex Mono', Consolas, monospace" font-size="14" fill="#db7058">&lt;script&gt;alert(1)&lt;/script&gt;</text>
+
+  <text x="648" y="286" font-family="'IBM Plex Mono', Consolas, monospace" font-size="12" fill="#ebe7de">Resultados de búsqueda</text>
+  <text x="648" y="314" font-family="'IBM Plex Mono', Consolas, monospace" font-size="11" fill="#a6a094">No se encontraron resultados para:</text>
+  <text x="648" y="338" font-family="'IBM Plex Mono', Consolas, monospace" font-size="11" fill="#db7058">&lt;script&gt;alert(1)&lt;/script&gt;</text>
+
+  <rect x="714" y="356" width="320" height="118" rx="10" fill="#1d1a17" stroke="#db7058" stroke-width="1" />
+  <text x="738" y="390" font-family="'IBM Plex Mono', Consolas, monospace" font-size="14" fill="#db7058">XSS</text>
+  <text x="738" y="416" font-family="'IBM Plex Mono', Consolas, monospace" font-size="12" fill="#ebe7de">alert(document.domain)</text>
+  <text x="738" y="440" font-family="'IBM Plex Mono', Consolas, monospace" font-size="10" fill="#a6a094">El script se ejecuta en el origen</text>
+  <rect x="948" y="446" width="62" height="20" rx="4" fill="#db7058" />
+  <text x="963" y="460" font-family="'IBM Plex Mono', Consolas, monospace" font-size="10" fill="#0b0d0f">Aceptar</text>
+
+  <line x1="636" y1="500" x2="1112" y2="500" stroke="#393630" stroke-width="1" />
+  <text x="648" y="526" font-family="'IBM Plex Mono', Consolas, monospace" font-size="10" fill="#a6a094">GET /search?q=&lt;script&gt;... HTTP/1.1</text>
+  <text x="648" y="544" font-family="'IBM Plex Mono', Consolas, monospace" font-size="10" fill="#a6a094">200 OK · text/html · payload reflejado</text>
+</svg>
