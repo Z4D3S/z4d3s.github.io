@@ -42,6 +42,8 @@
 </button>
 
 <script>
+  import { appendShellFox, motionDisabled } from '../scripts/foxShell';
+
   const root = document.documentElement;
   const button = document.getElementById('theme-toggle');
   let transitioning = false;
@@ -61,14 +63,6 @@
       // Storage can be unavailable in private contexts; the theme still applies.
     }
     syncToggle();
-  }
-
-  function motionDisabled() {
-    return (
-      root.classList.contains('motion-off') ||
-      (!root.classList.contains('motion-on') &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches)
-    );
   }
 
   syncToggle();
@@ -109,6 +103,7 @@
         </p>
       </div>
     `;
+    appendShellFox(shell, 'theme');
     activeShell = shell;
     document.body.append(shell);
 

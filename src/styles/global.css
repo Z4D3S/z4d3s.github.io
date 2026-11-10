@@ -334,6 +334,227 @@
   }
 }
 
+/* Fox mascot inside the transition shells. */
+.theme-shell--boot {
+  animation: theme-shell-power-on 260ms ease-out both;
+}
+
+@keyframes theme-shell-power-on {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.shell-fox {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: none;
+  width: max-content;
+  height: max-content;
+  margin: auto;
+  isolation: isolate;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  pointer-events: none;
+  user-select: none;
+  font-family: 'IBM Plex Mono', 'Fira Code', Consolas, monospace;
+}
+
+.shell-fox::before {
+  content: '';
+  position: absolute;
+  inset: 22% -18% -8% -14%;
+  z-index: -1;
+  background: radial-gradient(ellipse at 50% 55%, rgb(var(--accent) / 0.16), transparent 70%);
+  pointer-events: none;
+}
+
+@media (min-width: 720px) {
+  .shell-fox {
+    display: flex;
+  }
+}
+
+.shell-fox__label {
+  padding-left: 8px;
+  border-left: 1px solid rgb(var(--accent) / 0.65);
+  font-size: 9px;
+  line-height: 1.4;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgb(var(--muted));
+  opacity: 0;
+  animation: shell-fox-label-in 300ms ease-out 120ms forwards;
+}
+
+.shell-fox__art {
+  margin: 0;
+  font-size: clamp(2.8px, 0.28vw, 4.2px);
+  line-height: 1.05;
+  white-space: pre;
+  color: rgb(var(--accent) / 0.62);
+}
+
+.shell-fox__line {
+  display: block;
+  opacity: 0;
+  transform: translateY(2px);
+  animation: shell-fox-line-in 200ms ease-out forwards;
+  animation-delay: calc(90ms + var(--i) * 3ms);
+}
+
+/* Theme change: the fox materializes from the tail up, then blinks. */
+.shell-fox--theme {
+  animation: shell-fox-rise 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.shell-fox--theme .shell-fox__line {
+  animation-duration: 190ms;
+  animation-delay: calc(40ms + (65 - var(--i)) * 2ms);
+}
+
+.shell-fox--theme .shell-fox__art {
+  animation: shell-fox-blink-once 460ms ease-in-out 470ms both;
+}
+
+/* Article arrival: the fox slides in from the edge. */
+.shell-fox--article {
+  animation: shell-fox-slide-in 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* First visit: CRT-style power-on while the art prints. */
+.shell-fox--boot {
+  animation: shell-fox-power-on 560ms linear both;
+}
+
+.shell-fox--boot .shell-fox__line {
+  animation-duration: 240ms;
+  animation-delay: calc(140ms + var(--i) * 6ms);
+}
+
+.shell-fox--boot .shell-fox__label {
+  animation-delay: 380ms;
+}
+
+@keyframes shell-fox-label-in {
+  from {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes shell-fox-line-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes shell-fox-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes shell-fox-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes shell-fox-power-on {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  12% {
+    opacity: 0.55;
+  }
+
+  20% {
+    opacity: 0.16;
+  }
+
+  34% {
+    opacity: 0.9;
+  }
+
+  48% {
+    opacity: 0.42;
+  }
+
+  62%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes shell-fox-blink-once {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  40% {
+    opacity: 0.55;
+  }
+
+  70% {
+    opacity: 1;
+  }
+
+  85% {
+    opacity: 0.72;
+  }
+}
+
+html.motion-off .theme-shell--boot,
+html.motion-off .shell-fox,
+html.motion-off .shell-fox__label,
+html.motion-off .shell-fox__art,
+html.motion-off .shell-fox__line {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not(.motion-on) .theme-shell--boot,
+  html:not(.motion-on) .shell-fox,
+  html:not(.motion-on) .shell-fox__label,
+  html:not(.motion-on) .shell-fox__art,
+  html:not(.motion-on) .shell-fox__line {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Motion preference: the label and dot follow the effective setting. */
 [data-motion-off-label] {
   display: none;

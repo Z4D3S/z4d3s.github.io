@@ -25,5 +25,10 @@ const { title, description, image, type } = Astro.props;
       <slot />
     </main>
     <Footer />
+    <script>
+      import { bootFox } from '../scripts/foxShell';
+
+      bootFox();
+    </script>
   </body>
 </html>
