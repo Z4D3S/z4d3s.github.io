@@ -1,6 +1,6 @@
 ---
 interface Props { title: string; description: string; pubDate: Date; href: string; tags: string[]; difficulty?: 'easy' | 'medium' | 'hard' | 'info'; image?: string; readingTime?: number;
-} const { title, description, pubDate, href, tags, difficulty = 'medium', image, readingTime } = Astro.props; const formattedDate = pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric'
+} const { title, description, pubDate, href, tags, difficulty = 'medium', image, readingTime } = Astro.props; const formattedDate = pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC'
 }); const difficultyLabels = { easy: 'Fácil', medium: 'Medio', hard: 'Difícil', info: 'Info' };
 const difficultyColors = { easy: 'bg-green-500/10 border-green-500/30 text-green-400', medium: 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400', hard: 'bg-red-500/10 border-red-500/30 text-red-400', info: 'bg-blue-500/10 border-blue-500/30 text-blue-400'
 };

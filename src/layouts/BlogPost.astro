@@ -17,8 +17,8 @@ const { title, description, pubDate, updatedDate, heroImage, tags, category, dif
 const rt = readingTime(post.body || '');
 const categoryLabel = categories.find(c => c.id === category)?.label || category;
 const difficultyLabel = difficultyLabels[difficulty];
-const formattedDate = pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
-const formattedUpdated = updatedDate?.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+const formattedDate = pubDate.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const formattedUpdated = updatedDate?.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 ---
 
 <!DOCTYPE html>

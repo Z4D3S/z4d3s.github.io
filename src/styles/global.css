@@ -180,6 +180,10 @@
     background-color: rgb(var(--code-bg)) !important;
   }
 
+  .prose table {
+    @apply block overflow-x-auto;
+  }
+
   .prose blockquote {
     @apply pl-5 italic;
     border-left: 2px solid rgb(var(--prose-quote-borders));
