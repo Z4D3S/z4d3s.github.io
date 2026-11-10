@@ -22,7 +22,7 @@ const blog = defineCollection({
     ]),
     difficulty: z.enum(['easy', 'medium', 'hard', 'info']).default('medium'),
     draft: z.boolean().default(false),
-    author: z.string().default('z4des'),
+    author: z.string().default('z4d3s'),
     event: z.string().optional(),
   }),
 });

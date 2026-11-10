@@ -1,7 +1,7 @@
 import foxArt from '../assets/fox-ascii.txt?raw';
 
 const FOX_LINES = foxArt.replace(/\r/g, '').split('\n');
-const BOOT_KEY = 'z4des:fox-booted';
+const BOOT_KEY = 'z4d3s:fox-booted';
 
 export type FoxVariant = 'boot' | 'theme' | 'article';
 
@@ -87,19 +87,19 @@ export function bootFox(): boolean {
   shell.setAttribute('aria-hidden', 'true');
   shell.innerHTML = `
     <div class="theme-shell__bar">
-      <span>z4des@blog</span>
+      <span>z4d3s@blog</span>
       <span>inicio de sesión</span>
     </div>
     <div class="theme-shell__body">
       <p class="theme-shell__prompt">
-        <span class="theme-shell__user">z4des@blog</span><span class="theme-shell__path">:~$</span>
+        <span class="theme-shell__user">z4d3s@blog</span><span class="theme-shell__path">:~$</span>
         <span data-cmd></span><span class="theme-shell__caret">_</span>
       </p>
       <p class="theme-shell__out" data-delay="1">
         <span class="theme-shell__ok">[ ok ]</span> guardián ASCII en línea
       </p>
       <p class="theme-shell__out" data-delay="2">
-        <span class="theme-shell__ok">[ ok ]</span> bienvenido a z4des
+        <span class="theme-shell__ok">[ ok ]</span> bienvenido a z4d3s
       </p>
     </div>
   `;
@@ -121,12 +121,12 @@ export function openArticleShell(slug: string) {
   shell.setAttribute('aria-hidden', 'true');
   shell.innerHTML = `
     <div class="theme-shell__bar">
-      <span>z4des@blog</span>
+      <span>z4d3s@blog</span>
       <span>article view</span>
     </div>
     <div class="theme-shell__body">
       <p class="theme-shell__prompt">
-        <span class="theme-shell__user">z4des@blog</span><span class="theme-shell__path">:~$</span>
+        <span class="theme-shell__user">z4d3s@blog</span><span class="theme-shell__path">:~$</span>
         <span data-cmd></span><span class="theme-shell__caret">_</span>
       </p>
       <p class="theme-shell__out" data-delay="1">

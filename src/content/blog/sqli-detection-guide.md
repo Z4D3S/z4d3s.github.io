@@ -10,7 +10,7 @@ tags:
   - waf
   - red-team
 category: web-exploitation
-author: z4des
+author: z4d3s
 difficulty: info
 ---
 
