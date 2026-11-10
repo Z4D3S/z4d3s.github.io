@@ -5,10 +5,6 @@ const lines = foxArt.replace(/\r/g, '').split('\n');
 ---
 
 <div class="ascii-fox" aria-hidden="true">
-  <p class="ascii-fox__cmd">
-    <span class="ascii-fox__user">z4des@blog</span><span class="ascii-fox__path">:~$</span>
-    <span class="ascii-fox__run">cat fox.ascii</span><span class="ascii-fox__caret">_</span>
-  </p>
   <div class="ascii-fox__screen">
     <pre class="ascii-fox__art">{lines.map((line, i) => (
       <span class="ascii-fox__line" style={`--i:${i}`}>{line || ' '}</span>

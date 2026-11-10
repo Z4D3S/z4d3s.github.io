@@ -849,36 +849,6 @@ html.motion-off .fade-in {
   }
 }
 
-.ascii-fox__cmd {
-  margin: 0 0 7px;
-  font-size: 10px;
-  line-height: 1.2;
-  letter-spacing: 0.01em;
-  color: rgb(var(--muted));
-  white-space: nowrap;
-  opacity: 0;
-  animation: ascii-fox-cmd-in 380ms ease-out 120ms forwards;
-}
-
-.ascii-fox__user {
-  color: rgb(var(--accent));
-}
-
-.ascii-fox__path {
-  color: rgb(var(--muted));
-}
-
-.ascii-fox__run {
-  color: rgb(var(--ink) / 0.7);
-}
-
-.ascii-fox__caret {
-  display: inline-block;
-  margin-left: 1px;
-  color: rgb(var(--accent));
-  animation: ascii-fox-blink 1.15s steps(1, end) infinite;
-}
-
 .ascii-fox__screen {
   position: relative;
   overflow: hidden;
@@ -900,18 +870,6 @@ html.motion-off .fade-in {
   animation-delay: calc(200ms + var(--i) * 7ms);
 }
 
-@keyframes ascii-fox-cmd-in {
-  from {
-    opacity: 0;
-    transform: translateY(-3px);
-  }
-
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
 @keyframes ascii-fox-line-in {
   to {
     opacity: 1;
@@ -919,38 +877,16 @@ html.motion-off .fade-in {
   }
 }
 
-@keyframes ascii-fox-blink {
-  0%,
-  45% {
-    opacity: 1;
-  }
-
-  50%,
-  100% {
-    opacity: 0;
-  }
-}
-
-html.motion-off .ascii-fox__cmd,
 html.motion-off .ascii-fox__line {
   animation: none;
   opacity: 1;
   transform: none;
 }
 
-html.motion-off .ascii-fox__caret {
-  animation: none;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  html:not(.motion-on) .ascii-fox__cmd,
   html:not(.motion-on) .ascii-fox__line {
     animation: none;
     opacity: 1;
     transform: none;
-  }
-
-  html:not(.motion-on) .ascii-fox__caret {
-    animation: none;
   }
 }
