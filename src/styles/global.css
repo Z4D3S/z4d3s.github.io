@@ -694,27 +694,6 @@ html.motion-off .fade-in {
   overflow: hidden;
 }
 
-.ascii-fox__screen::after {
-  content: '';
-  position: absolute;
-  top: -16px;
-  left: -2%;
-  right: -2%;
-  height: 14px;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgb(var(--accent) / 0.12) 35%,
-    rgb(var(--accent) / 0.32) 50%,
-    rgb(var(--accent) / 0.12) 65%,
-    transparent 100%
-  );
-  opacity: 0;
-  pointer-events: none;
-  will-change: transform;
-  animation: ascii-fox-scan 7s linear 1.3s infinite;
-}
-
 .ascii-fox__art {
   margin: 0;
   font-size: 3px;
@@ -762,28 +741,6 @@ html.motion-off .fade-in {
   }
 }
 
-@keyframes ascii-fox-scan {
-  0% {
-    transform: translateY(0);
-    opacity: 0;
-  }
-
-  6% {
-    opacity: 1;
-  }
-
-  52% {
-    transform: translateY(310px);
-    opacity: 1;
-  }
-
-  58%,
-  100% {
-    transform: translateY(310px);
-    opacity: 0;
-  }
-}
-
 html.motion-off .ascii-fox__cmd,
 html.motion-off .ascii-fox__line {
   animation: none;
@@ -793,10 +750,6 @@ html.motion-off .ascii-fox__line {
 
 html.motion-off .ascii-fox__caret {
   animation: none;
-}
-
-html.motion-off .ascii-fox__screen::after {
-  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -809,9 +762,5 @@ html.motion-off .ascii-fox__screen::after {
 
   html:not(.motion-on) .ascii-fox__caret {
     animation: none;
-  }
-
-  html:not(.motion-on) .ascii-fox__screen::after {
-    display: none;
   }
 }
